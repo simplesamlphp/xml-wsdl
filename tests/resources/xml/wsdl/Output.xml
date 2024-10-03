@@ -1,0 +1,1 @@
+<wsdl:output xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr1="value1" name="CustomName" message="ssp:CustomMessage"/>

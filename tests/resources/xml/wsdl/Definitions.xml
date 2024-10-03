@@ -1,0 +1,39 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:x-simplesamlphp:namespace" name="MyDefinitions">
+  <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">SomeChunk</ssp:Chunk>
+  <wsdl:import xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr1="value1" namespace="urn:x-simplesamlphp:namespace" location="urn:x-simplesamlphp:location"/>
+  <wsdl:types>
+    <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">TypesChunk</ssp:Chunk>
+  </wsdl:types>
+  <wsdl:message name="SomeName">
+    <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">MessageChunk</ssp:Chunk>
+    <wsdl:part xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr1="value1" name="CustomName" element="ssp:CustomElement" type="wsdl:part"/>
+  </wsdl:message>
+  <wsdl:portType xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:port="1234" name="MyPort">
+    <wsdl:operation name="Input" parameterOrder="0836217462 0836217463">
+      <wsdl:input ssp:attr1="value1" name="CustomInputName" message="ssp:CustomInputMessage"/>
+      <wsdl:output ssp:attr2="value2" name="CustomOutputName" message="ssp:CustomOutputMessage"/>
+      <wsdl:fault ssp:attr3="value3" name="CustomFaultName" message="ssp:CustomFaultMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MyBinding" type="wsdl:binding">
+    <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">BindingChunk</ssp:Chunk>
+    <wsdl:operation name="OperationOne">
+      <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">OperationChunk</ssp:Chunk>
+      <wsdl:input name="CustomInputName">
+        <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">InputChunk</ssp:Chunk>
+      </wsdl:input>
+      <wsdl:output name="CustomOutputName">
+        <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">OutputChunk</ssp:Chunk>
+      </wsdl:output>
+      <wsdl:fault name="CustomFaultOne">
+        <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">FaultOneChunk</ssp:Chunk>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MyService">
+    <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">ServiceChunk</ssp:Chunk>
+    <wsdl:port name="PortOne" binding="wsdl:binding">
+      <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">ChunkOne</ssp:Chunk>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

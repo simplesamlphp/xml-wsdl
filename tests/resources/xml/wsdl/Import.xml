@@ -1,0 +1,1 @@
+<wsdl:import xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr1="value1" namespace="urn:x-simplesamlphp:namespace" location="urn:x-simplesamlphp:location"/>

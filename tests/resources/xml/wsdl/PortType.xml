@@ -1,0 +1,12 @@
+<wsdl:portType xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:port="1234" name="MyPort">
+  <wsdl:operation name="Input" parameterOrder="0836217462 0836217463">
+    <wsdl:input ssp:attr1="value1" name="CustomInputName" message="ssp:CustomInputMessage"/>
+    <wsdl:output ssp:attr2="value2" name="CustomOutputName" message="ssp:CustomOutputMessage"/>
+    <wsdl:fault ssp:attr3="value3" name="CustomFaultName" message="ssp:CustomFaultMessage"/>
+  </wsdl:operation>
+  <wsdl:operation name="Output" parameterOrder="0836217462 0836217463">
+    <wsdl:output ssp:attr2="value2" name="CustomOutputName" message="ssp:CustomOutputMessage"/>
+    <wsdl:input ssp:attr1="value1" name="CustomInputName" message="ssp:CustomInputMessage"/>
+    <wsdl:fault ssp:attr3="value3" name="CustomFaultName" message="ssp:CustomFaultMessage"/>
+  </wsdl:operation>
+</wsdl:portType>

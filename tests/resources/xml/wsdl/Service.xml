@@ -1,0 +1,9 @@
+<wsdl:service xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="MyService">
+  <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">SomeChunk</ssp:Chunk>
+  <wsdl:port name="PortOne" binding="ssp:CustomBinding">
+    <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">ChunkOne</ssp:Chunk>
+  </wsdl:port>
+  <wsdl:port name="PortTwo" binding="ssp:CustomBinding">
+    <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">ChunkTwo</ssp:Chunk>
+  </wsdl:port>
+</wsdl:service>

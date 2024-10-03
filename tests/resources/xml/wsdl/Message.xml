@@ -1,0 +1,5 @@
+<wsdl:message xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="SomeName">
+  <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">SomeChunk</ssp:Chunk>
+  <wsdl:part xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr1="value1" name="CustomName" element="ssp:CustomElement" type="ssp:CustomType"/>
+  <wsdl:part xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr2="value2" name="CustomOtherName" element="ssp:CustomElement" type="ssp:CustomType"/>
+</wsdl:message>

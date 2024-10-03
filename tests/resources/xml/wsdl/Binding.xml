@@ -1,0 +1,19 @@
+<wsdl:binding xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="MyBinding" type="ssp:CustomType">
+  <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">SomeChunk</ssp:Chunk>
+  <wsdl:operation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="OperationOne">
+    <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">OperationChunk</ssp:Chunk>
+    <wsdl:input name="CustomInputName">
+      <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">InputChunk</ssp:Chunk>
+    </wsdl:input>
+    <wsdl:output name="CustomOutputName">
+      <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">OutputChunk</ssp:Chunk>
+    </wsdl:output>
+    <wsdl:fault name="CustomFaultOne">
+      <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">FaultOneChunk</ssp:Chunk>
+    </wsdl:fault>
+    <wsdl:fault name="CustomFaultTwo">
+      <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">FaultTwoChunk</ssp:Chunk>
+    </wsdl:fault>
+  </wsdl:operation>
+  <wsdl:operation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="OperationTwo"/>
+</wsdl:binding>

@@ -1,0 +1,5 @@
+<wsdl:operation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="CustomName" parameterOrder="0836217462 0836217463">
+  <wsdl:output xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr1="value1" name="CustomOutputName" message="ssp:CustomOutputMessage"/>
+  <wsdl:input xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr2="value2" name="CustomInputName" message="ssp:CustomInputMessage"/>
+  <wsdl:fault xmlns:ssp="urn:x-simplesamlphp:namespace" ssp:attr3="value3" name="CustomFaultName" message="ssp:CustomFaultMessage"/>
+</wsdl:operation>

@@ -36,6 +36,17 @@ abstract class AbstractExtensibilityElement extends AbstractWsdlElement
 
 
     /**
+     * Test if an object, at the state it's in, would produce an empty XML-element
+     *
+     * @return bool
+     */
+    public function isEmptyElement(): bool
+    {
+        return empty($this->getRequired());
+    }
+
+
+    /**
      * Convert this tExtensibilityElement to XML.
      *
      * @param \DOMElement|null $parent The element we are converting to XML.

@@ -1,0 +1,1 @@
+<soap12:headerfault xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" message="soap12:tOperation" parts="foo bar" use="literal" encodingStyle="urn:x-simplesamlphp:coding" namespace="urn:x-simplesamlphp:namespace"/>

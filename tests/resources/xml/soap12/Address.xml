@@ -1,0 +1,1 @@
+<soap12:address xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" wsdl:required="true" location="https://example.org/location" />

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
+use SimpleSAML\XML\Attribute as XMLAttribute;
+use SimpleSAML\WSDL\Constants as C;
 
 /**
  * Abstract class representing the tExtensibilityElement type.
@@ -57,7 +59,8 @@ abstract class AbstractExtensibilityElement extends AbstractWsdlElement
         $e = $this->instantiateParentElement($parent);
 
         if ($this->getRequired() !== null) {
-            $e->setAttribute('required', $this->getRequired() ? 'true' : 'false');
+            $attr = new XMLAttribute(C::NS_WSDL, 'wsdl', 'required', $this->getRequired() ? 'true' : 'false');
+            $attr->toXML($e);
         }
 
         return $e;

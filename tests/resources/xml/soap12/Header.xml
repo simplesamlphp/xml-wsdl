@@ -1,3 +1,3 @@
-<soap12:header xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" message="soap12:tOperation" parts="foo bar" use="literal" encodingStyle="urn:x-simplesamlphp:coding" namespace="urn:x-simplesamlphp:namespace">
+<soap12:header xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" wsdl:required="true" message="soap12:tOperation" parts="foo bar" use="literal" encodingStyle="urn:x-simplesamlphp:coding" namespace="urn:x-simplesamlphp:namespace">
   <soap12:headerfault message="soap12:tOperation" parts="foo bar" use="literal" encodingStyle="urn:x-simplesamlphp:coding" namespace="urn:x-simplesamlphp:namespace"/>
 </soap12:header>

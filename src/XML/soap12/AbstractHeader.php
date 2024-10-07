@@ -145,7 +145,7 @@ abstract class AbstractHeader extends AbstractExtensibilityElement
      */
     public function toXML(DOMElement $parent = null): DOMElement
     {
-        $e = $this->instantiateParentElement($parent);
+        $e = parent::toXML($parent);
 
         $e->setAttribute('message', $this->getMessage());
         $e->setAttribute('parts', $this->getParts());

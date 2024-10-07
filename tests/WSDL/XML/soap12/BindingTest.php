@@ -62,5 +62,7 @@ final class BindingTest extends TestCase
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($binding),
         );
+
+        $this->assertFalse($binding->isEmptyElement());
     }
 }

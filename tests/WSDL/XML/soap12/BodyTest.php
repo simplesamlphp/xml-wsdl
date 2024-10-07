@@ -64,5 +64,7 @@ final class BodyTest extends TestCase
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($body),
         );
+
+        $this->assertFalse($body->isEmptyElement());
     }
 }

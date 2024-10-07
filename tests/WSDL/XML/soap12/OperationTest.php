@@ -62,5 +62,7 @@ final class OperationTest extends TestCase
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($operation),
         );
+
+        $this->assertFalse($operation->isEmptyElement());
     }
 }

@@ -142,8 +142,8 @@ abstract class AbstractOperation extends AbstractExtensibilityElement
             $e->setAttribute('soapAction', $this->getSoapAction());
         }
 
-        if ($this->getSoapAction() !== null) {
-            $e->setAttribute('soapActionRequired', $this->getSoapAction() ? 'true' : 'false');
+        if ($this->getSoapActionRequired() !== null) {
+            $e->setAttribute('soapActionRequired', $this->getSoapActionRequired() ? 'true' : 'false');
         }
 
         if ($this->getStyle() !== null) {

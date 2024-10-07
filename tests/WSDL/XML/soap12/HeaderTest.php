@@ -74,6 +74,7 @@ final class HeaderTest extends TestCase
             [$headerFault],
             'urn:x-simplesamlphp:coding',
             'urn:x-simplesamlphp:namespace',
+            true,
         );
 
         $this->assertEquals(

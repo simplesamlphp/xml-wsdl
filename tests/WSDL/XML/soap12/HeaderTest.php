@@ -7,13 +7,12 @@ namespace SimpleSAML\Test\WSDL\XML\soap12;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
-use SimpleSAML\Test\WSDL\Constants as C;
-use SimpleSAML\WSDL\XML\wsdl\AbstractExtensibilityDocument;
-use SimpleSAML\WSDL\XML\wsdl\AbstractWsdlElement;
 use SimpleSAML\WSDL\XML\soap12\AbstractHeader;
+use SimpleSAML\WSDL\XML\soap12\BodyAttributesTrait;
 use SimpleSAML\WSDL\XML\soap12\Header;
 use SimpleSAML\WSDL\XML\soap12\HeaderFault;
-use SimpleSAML\WSDL\XML\soap12\BodyAttributesTrait;
+use SimpleSAML\WSDL\XML\wsdl\AbstractExtensibilityElement;
+use SimpleSAML\WSDL\XML\wsdl\AbstractWsdlElement;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\SchemaValidationTestTrait;
 use SimpleSAML\XML\TestUtils\SerializableElementTestTrait;
@@ -30,7 +29,7 @@ use function strval;
 #[CoversClass(Header::class)]
 #[CoversClass(BodyAttributesTrait::class)]
 #[CoversClass(AbstractHeader::class)]
-#[CoversClass(AbstractExtensibilityDocument::class)]
+#[CoversClass(AbstractExtensibilityElement::class)]
 #[CoversClass(AbstractWsdlElement::class)]
 final class HeaderTest extends TestCase
 {

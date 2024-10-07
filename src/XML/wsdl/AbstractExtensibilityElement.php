@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
-use SimpleSAML\XML\Attribute as XMLAttribute;
 use SimpleSAML\WSDL\Constants as C;
+use SimpleSAML\XML\Attribute as XMLAttribute;
 
 /**
  * Abstract class representing the tExtensibilityElement type.

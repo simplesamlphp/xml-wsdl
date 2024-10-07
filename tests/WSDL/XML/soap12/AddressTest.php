@@ -7,10 +7,10 @@ namespace SimpleSAML\Test\WSDL\XML\soap12;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
-use SimpleSAML\Test\WSDL\Constants as C;
-use SimpleSAML\WSDL\XML\wsdl\AbstractExtensibilityDocument;
-use SimpleSAML\WSDL\XML\wsdl\AbstractWsdlElement;
+use SimpleSAML\WSDL\XML\soap12\AbstractAddress;
 use SimpleSAML\WSDL\XML\soap12\Address;
+use SimpleSAML\WSDL\XML\wsdl\AbstractExtensibilityElement;
+use SimpleSAML\WSDL\XML\wsdl\AbstractWsdlElement;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\SchemaValidationTestTrait;
 use SimpleSAML\XML\TestUtils\SerializableElementTestTrait;
@@ -25,7 +25,8 @@ use function strval;
  */
 #[Group('wsdl')]
 #[CoversClass(Address::class)]
-#[CoversClass(AbstractExtensibilityDocument::class)]
+#[CoversClass(AbstractAddress::class)]
+#[CoversClass(AbstractExtensibilityElement::class)]
 #[CoversClass(AbstractWsdlElement::class)]
 final class AddressTest extends TestCase
 {

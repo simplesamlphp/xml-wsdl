@@ -7,6 +7,7 @@ namespace SimpleSAML\Test\WSDL\XML\soap12;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use SimpleSAML\WSDL\Constants as C;
 use SimpleSAML\WSDL\XML\soap12\AbstractOperation;
 use SimpleSAML\WSDL\XML\soap12\Operation;
 use SimpleSAML\WSDL\XML\wsdl\AbstractExtensibilityElement;
@@ -62,7 +63,20 @@ final class OperationTest extends TestCase
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($operation),
         );
+    }
 
-        $this->assertFalse($operation->isEmptyElement());
+
+    /**
+     * Adding an empty Operation element should yield an empty element.
+     */
+    public function testMarshallingEmptyElement(): void
+    {
+        $wsdl_soap12 = C::NS_WSDL_SOAP_12;
+        $operation = new Operation();
+        $this->assertEquals(
+            "<soap12:operation xmlns:soap12=\"$wsdl_soap12\"/>",
+            strval($operation),
+        );
+        $this->assertTrue($operation->isEmptyElement());
     }
 }

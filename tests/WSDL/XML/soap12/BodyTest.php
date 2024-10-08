@@ -7,6 +7,7 @@ namespace SimpleSAML\Test\WSDL\XML\soap12;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use SimpleSAML\WSDL\Constants as C;
 use SimpleSAML\WSDL\XML\soap12\AbstractBody;
 use SimpleSAML\WSDL\XML\soap12\Body;
 use SimpleSAML\WSDL\XML\soap12\BodyAttributesTrait;
@@ -64,7 +65,20 @@ final class BodyTest extends TestCase
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($body),
         );
+    }
 
-        $this->assertFalse($body->isEmptyElement());
+
+    /**
+     * Adding an empty Body element should yield an empty element.
+     */
+    public function testMarshallingEmptyElement(): void
+    {
+        $wsdl_soap12 = C::NS_WSDL_SOAP_12;
+        $body = new Body();
+        $this->assertEquals(
+            "<soap12:body xmlns:soap12=\"$wsdl_soap12\"/>",
+            strval($body),
+        );
+        $this->assertTrue($body->isEmptyElement());
     }
 }

@@ -7,6 +7,7 @@ namespace SimpleSAML\Test\WSDL\XML\soap12;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use SimpleSAML\WSDL\Constants as C;
 use SimpleSAML\WSDL\XML\soap12\AbstractBinding;
 use SimpleSAML\WSDL\XML\soap12\Binding;
 use SimpleSAML\WSDL\XML\wsdl\AbstractExtensibilityElement;
@@ -62,7 +63,20 @@ final class BindingTest extends TestCase
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($binding),
         );
+    }
 
-        $this->assertFalse($binding->isEmptyElement());
+
+    /**
+     * Adding an empty Binding element should yield an empty element.
+     */
+    public function testMarshallingEmptyElement(): void
+    {
+        $wsdl_soap12 = C::NS_WSDL_SOAP_12;
+        $binding = new Binding();
+        $this->assertEquals(
+            "<soap12:binding xmlns:soap12=\"$wsdl_soap12\"/>",
+            strval($binding),
+        );
+        $this->assertTrue($binding->isEmptyElement());
     }
 }

@@ -9,6 +9,7 @@ use SimpleSAML\Assert\Assert;
 use SimpleSAML\WSDL\Constants as C;
 use SimpleSAML\XML\Exception\InvalidDOMElementException;
 use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
 
 use function in_array;
 
@@ -17,8 +18,11 @@ use function in_array;
  *
  * @package simplesamlphp/xml-wsdl
  */
-final class Body extends AbstractBody
+final class Body extends AbstractBody implements SchemaValidatableElementInterface
 {
+    use SchemaValidatableElementTrait;
+
+
     /**
      * Initialize a Body element.
      *

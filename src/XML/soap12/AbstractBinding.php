@@ -29,6 +29,9 @@ abstract class AbstractBinding extends AbstractExtensibilityElement
     /** @var string */
     public const LOCALNAME = 'binding';
 
+    /** @var string */
+    public const SCHEMA = AbstractSoapElement::SCHEMA;
+
 
     /**
      * Initialize a soap12:binding

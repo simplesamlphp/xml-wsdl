@@ -30,6 +30,9 @@ abstract class AbstractBody extends AbstractExtensibilityElement
     /** @var string */
     public const LOCALNAME = 'body';
 
+    /** @var string */
+    public const SCHEMA = AbstractSoapElement::SCHEMA;
+
 
     /**
      * Initialize a soap12:body

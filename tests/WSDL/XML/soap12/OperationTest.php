@@ -41,8 +41,6 @@ final class OperationTest extends TestCase
     {
         self::$testedClass = Operation::class;
 
-        self::$schemaFile = dirname(__FILE__, 5) . '/resources/schemas/wsdl-soap12.xsd';
-
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
             dirname(__FILE__, 4) . '/resources/xml/soap12/Operation.xml',
         );

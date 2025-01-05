@@ -43,8 +43,6 @@ final class BodyTest extends TestCase
     {
         self::$testedClass = Body::class;
 
-        self::$schemaFile = dirname(__FILE__, 5) . '/resources/schemas/wsdl-soap12.xsd';
-
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
             dirname(__FILE__, 4) . '/resources/xml/soap12/Body.xml',
         );

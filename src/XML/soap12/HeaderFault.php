@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace SimpleSAML\WSDL\XML\soap12;
 
+use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
+
 /**
  * Class representing the HeaderFault element.
  *
  * @package simplesamlphp/xml-wsdl
  */
-final class HeaderFault extends AbstractHeaderFault
+final class HeaderFault extends AbstractHeaderFault implements SchemaValidatableElementInterface
 {
+    use SchemaValidatableElementTrait;
 }

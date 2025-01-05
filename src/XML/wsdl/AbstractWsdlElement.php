@@ -19,4 +19,7 @@ abstract class AbstractWsdlElement extends AbstractElement
 
     /** @var string */
     public const NS_PREFIX = 'wsdl';
+
+    /** @var string */
+    public const SCHEMA = 'resources/schemas/wsdl.xsd';
 }

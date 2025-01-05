@@ -19,4 +19,7 @@ abstract class AbstractSoapElement extends AbstractElement
 
     /** @var string */
     public const NS_PREFIX = 'soap12';
+
+    /** @var string */
+    public const SCHEMA = 'resources/schemas/wsdl-soap12.xsd';
 }

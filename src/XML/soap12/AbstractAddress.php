@@ -29,6 +29,9 @@ abstract class AbstractAddress extends AbstractExtensibilityElement
     /** @var string */
     public const LOCALNAME = 'address';
 
+    /** @var string */
+    public const SCHEMA = AbstractSoapElement::SCHEMA;
+
 
     /**
      * Initialize a soap12:address

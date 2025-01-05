@@ -40,8 +40,6 @@ final class AddressTest extends TestCase
     {
         self::$testedClass = Address::class;
 
-        self::$schemaFile = dirname(__FILE__, 5) . '/resources/schemas/wsdl-soap12.xsd';
-
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
             dirname(__FILE__, 4) . '/resources/xml/soap12/Address.xml',
         );

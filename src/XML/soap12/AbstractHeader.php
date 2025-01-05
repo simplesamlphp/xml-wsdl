@@ -32,6 +32,9 @@ abstract class AbstractHeader extends AbstractExtensibilityElement
     /** @var string */
     public const LOCALNAME = 'header';
 
+    /** @var string */
+    public const SCHEMA = AbstractSoapElement::SCHEMA;
+
 
     /**
      * Initialize a soap12:body

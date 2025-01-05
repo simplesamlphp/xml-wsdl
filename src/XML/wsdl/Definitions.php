@@ -7,14 +7,17 @@ namespace SimpleSAML\WSDL\XML\wsdl;
 use DOMElement;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\XML\Exception\InvalidDOMElementException;
+use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
 
 /**
  * Class representing the Definitions element.
  *
  * @package simplesamlphp/xml-wsdl
  */
-final class Definitions extends AbstractDefinitions
+final class Definitions extends AbstractDefinitions implements SchemaValidatableElementInterface
 {
+    use SchemaValidatableElementTrait;
+
     /** @var string */
     final public const LOCALNAME = 'definitions';
 

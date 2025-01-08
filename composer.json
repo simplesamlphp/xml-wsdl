@@ -13,7 +13,7 @@
         "ext-dom": "*",
         "ext-spl": "*",
 
-        "simplesamlphp/assert": "~1.6.0",
+        "simplesamlphp/assert": "~1.7.0",
         "simplesamlphp/xml-common": "~1.23.2"
     },
     "require-dev": {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
-use SimpleSAML\Assert\Assert;
+use SimpleSAML\WSDL\Assert\Assert;
 use SimpleSAML\XML\Exception\SchemaViolationException;
 
 /**

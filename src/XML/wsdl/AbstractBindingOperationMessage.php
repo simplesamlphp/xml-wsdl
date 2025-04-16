@@ -58,7 +58,7 @@ abstract class AbstractBindingOperationMessage extends AbstractExtensibleDocumen
      * @param \DOMElement|null $parent The element we are converting to XML.
      * @return \DOMElement The XML element after adding the data corresponding to this tBindingOperationMessage.
      */
-    public function toXML(DOMElement $parent = null): DOMElement
+    public function toXML(?DOMElement $parent = null): DOMElement
     {
         $e = parent::toXML($parent);
 

@@ -6,7 +6,8 @@ namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
 use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Exception\InvalidDOMElementException;
+use SimpleSAML\XMLSchema\Exception\InvalidDOMElementException;
+use SimpleSAML\XMLSchema\Type\AnyURIValue;
 
 /**
  * Class representing the Import element.
@@ -25,7 +26,7 @@ final class Import extends AbstractImport
      * @param \DOMElement $xml The XML element we should load.
      * @return static
      *
-     * @throws \SimpleSAML\XML\Exception\InvalidDOMElementException
+     * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong
      */
     public static function fromXML(DOMElement $xml): static
@@ -34,8 +35,8 @@ final class Import extends AbstractImport
         Assert::same($xml->namespaceURI, static::NS, InvalidDOMElementException::class);
 
         return new static(
-            self::getAttribute($xml, 'namespace'),
-            self::getAttribute($xml, 'location'),
+            self::getAttribute($xml, 'namespace', AnyURIValue::class),
+            self::getAttribute($xml, 'location', AnyURIValue::class),
             self::getAttributesNSFromXML($xml),
         );
     }

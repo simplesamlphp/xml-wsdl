@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
-use SimpleSAML\WSDL\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
 
 /**
  * Abstract class representing the tBindingOperationFault type.
@@ -18,14 +17,13 @@ abstract class AbstractBindingOperationFault extends AbstractExtensibleDocumente
     /**
      * Initialize a wsdl:tBindingOperationFault
      *
-     * @param string $name
+     * @param \SimpleSAML\XMLSchema\Type\NCNameValue $name
      * @param \SimpleSAML\XML\SerializableElementInterface[] $elements
      */
     public function __construct(
-        protected string $name,
+        protected NCNameValue $name,
         array $elements = [],
     ) {
-        Assert::validNCName($name, SchemaViolationException::class);
         parent::__construct($elements);
     }
 
@@ -33,9 +31,9 @@ abstract class AbstractBindingOperationFault extends AbstractExtensibleDocumente
     /**
      * Collect the value of the name-property.
      *
-     * @return string
+     * @return \SimpleSAML\XMLSchema\Type\NCNameValue
      */
-    public function getName(): string
+    public function getName(): NCNameValue
     {
         return $this->name;
     }
@@ -62,7 +60,7 @@ abstract class AbstractBindingOperationFault extends AbstractExtensibleDocumente
     public function toXML(?DOMElement $parent = null): DOMElement
     {
         $e = parent::toXML($parent);
-        $e->setAttribute('name', $this->getName());
+        $e->setAttribute('name', $this->getName()->getValue());
 
         return $e;
     }

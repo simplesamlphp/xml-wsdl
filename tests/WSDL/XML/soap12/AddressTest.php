@@ -7,6 +7,7 @@ namespace SimpleSAML\Test\WSDL\XML\soap12;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use SimpleSAML\WSDL\Type\RequiredValue;
 use SimpleSAML\WSDL\XML\soap12\AbstractAddress;
 use SimpleSAML\WSDL\XML\soap12\Address;
 use SimpleSAML\WSDL\XML\wsdl\AbstractExtensibilityElement;
@@ -14,6 +15,7 @@ use SimpleSAML\WSDL\XML\wsdl\AbstractWsdlElement;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\SchemaValidationTestTrait;
 use SimpleSAML\XML\TestUtils\SerializableElementTestTrait;
+use SimpleSAML\XMLSchema\Type\AnyURIValue;
 
 use function dirname;
 use function strval;
@@ -54,7 +56,10 @@ final class AddressTest extends TestCase
      */
     public function testMarshalling(): void
     {
-        $address = new Address('https://example.org/location', true);
+        $address = new Address(
+            AnyURIValue::fromString('https://example.org/location'),
+            RequiredValue::fromBoolean(true),
+        );
 
         $this->assertEquals(
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),

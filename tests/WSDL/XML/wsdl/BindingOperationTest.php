@@ -18,6 +18,7 @@ use SimpleSAML\WSDL\XML\wsdl\BindingOperationOutput;
 use SimpleSAML\XML\Chunk;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\SerializableElementTestTrait;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
 
 use function dirname;
 use function strval;
@@ -74,13 +75,25 @@ final class BindingOperationTest extends TestCase
             '<ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">FaultTwoChunk</ssp:Chunk>',
         );
 
-        $input = new BindingOperationInput('CustomInputName', [new Chunk($inputChild->documentElement)]);
-        $output = new BindingOperationOutput('CustomOutputName', [new Chunk($outputChild->documentElement)]);
-        $faultOne = new BindingOperationFault('CustomFaultOne', [new Chunk($faultOneChild->documentElement)]);
-        $faultTwo = new BindingOperationFault('CustomFaultTwo', [new Chunk($faultTwoChild->documentElement)]);
+        $input = new BindingOperationInput(
+            NCNameValue::fromString('CustomInputName'),
+            [new Chunk($inputChild->documentElement)],
+        );
+        $output = new BindingOperationOutput(
+            NCNameValue::fromString('CustomOutputName'),
+            [new Chunk($outputChild->documentElement)],
+        );
+        $faultOne = new BindingOperationFault(
+            NCNameValue::fromString('CustomFaultOne'),
+            [new Chunk($faultOneChild->documentElement)],
+        );
+        $faultTwo = new BindingOperationFault(
+            NCNameValue::fromString('CustomFaultTwo'),
+            [new Chunk($faultTwoChild->documentElement)],
+        );
 
         $bindingOperation = new BindingOperation(
-            'SomeName',
+            NCNameValue::fromString('SomeName'),
             $input,
             $output,
             [$faultOne, $faultTwo],

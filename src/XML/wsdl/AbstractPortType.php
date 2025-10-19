@@ -6,7 +6,8 @@ namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
 use SimpleSAML\WSDL\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XMLSchema\Exception\SchemaViolationException;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
 
 /**
  * Abstract class representing the tPortType type.
@@ -18,16 +19,15 @@ abstract class AbstractPortType extends AbstractExtensibleAttributesDocumented
     /**
      * Initialize a wsdl:tPortType
      *
-     * @param string $name
+     * @param \SimpleSAML\XMLSchema\Type\NCNameValue $name
      * @param \SimpleSAML\WSDL\XML\wsdl\PortTypeOperation[] $operation
      * @param \SimpleSAML\XML\Attribute[] $attributes
      */
     public function __construct(
-        protected string $name,
+        protected NCNameValue $name,
         protected array $operation = [],
         array $attributes = [],
     ) {
-        Assert::validNCName($name, SchemaViolationException::class);
         Assert::allIsInstanceOf($operation, PortTypeOperation::class, SchemaViolationException::class);
 
         parent::__construct($attributes);
@@ -37,9 +37,9 @@ abstract class AbstractPortType extends AbstractExtensibleAttributesDocumented
     /**
      * Collect the value of the name-property.
      *
-     * @return string
+     * @return \SimpleSAML\XMLSchema\Type\NCNameValue
      */
-    public function getName(): string
+    public function getName(): NCNameValue
     {
         return $this->name;
     }
@@ -78,7 +78,7 @@ abstract class AbstractPortType extends AbstractExtensibleAttributesDocumented
     {
         $e = parent::toXML($parent);
 
-        $e->setAttribute('name', $this->getName());
+        $e->setAttribute('name', $this->getName()->getValue());
 
         foreach ($this->getOperation() as $operation) {
             $operation->toXML($e);

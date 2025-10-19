@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
-use SimpleSAML\WSDL\Constants as C;
-use SimpleSAML\XML\Attribute as XMLAttribute;
+use SimpleSAML\WSDL\Type\RequiredValue;
 
 /**
  * Abstract class representing the tExtensibilityElement type.
@@ -18,10 +17,10 @@ abstract class AbstractExtensibilityElement extends AbstractWsdlElement
     /**
      * Initialize a wsdl:tExtensibilityElement
      *
-     * @param bool|null $required
+     * @param \SimpleSAML\WSDL\Type\RequiredValue|null $required
      */
     public function __construct(
-        protected ?bool $required = null,
+        protected ?RequiredValue $required = null,
     ) {
     }
 
@@ -29,9 +28,9 @@ abstract class AbstractExtensibilityElement extends AbstractWsdlElement
     /**
      * Collect the value of the required-property.
      *
-     * @return bool|null
+     * @return \SimpleSAML\WSDL\Type\RequiredValue|null
      */
-    public function getRequired(): ?bool
+    public function getRequired(): ?RequiredValue
     {
         return $this->required;
     }
@@ -57,11 +56,7 @@ abstract class AbstractExtensibilityElement extends AbstractWsdlElement
     public function toXML(?DOMElement $parent = null): DOMElement
     {
         $e = $this->instantiateParentElement($parent);
-
-        if ($this->getRequired() !== null) {
-            $attr = new XMLAttribute(C::NS_WSDL, 'wsdl', 'required', $this->getRequired() ? 'true' : 'false');
-            $attr->toXML($e);
-        }
+        $this->getRequired()?->toAttribute()->toXML($e);
 
         return $e;
     }

@@ -7,11 +7,12 @@ namespace SimpleSAML\WSDL\XML\soap12;
 use DOMElement;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\WSDL\Constants as C;
+use SimpleSAML\WSDL\Type\RequiredValue;
+use SimpleSAML\WSDL\Type\StyleChoiceValue;
 use SimpleSAML\WSDL\XML\wsdl\AbstractExtensibilityElement;
-use SimpleSAML\XML\Exception\InvalidDOMElementException;
-use SimpleSAML\XML\Exception\SchemaViolationException;
-
-use function in_array;
+use SimpleSAML\XMLSchema\Exception\InvalidDOMElementException;
+use SimpleSAML\XMLSchema\Type\AnyURIValue;
+use SimpleSAML\XMLSchema\Type\BooleanValue;
 
 /**
  * Abstract class representing the tOperation type.
@@ -36,20 +37,17 @@ abstract class AbstractOperation extends AbstractExtensibilityElement
     /**
      * Initialize a soap12:operation
      *
-     * @param string|null $soapAction
-     * @param bool|null $soapActionRequired
-     * @param string|null $style
-     * @param bool|null $required
+     * @param \SimpleSAML\XMLSchema\Type\AnyURIValue|null $soapAction
+     * @param \SimpleSAML\XMLSchema\Type\BooleanValue|null $soapActionRequired
+     * @param \SimpleSAML\WSDL\Type\StyleChoiceValue|null $style
+     * @param \SimpleSAML\WSDL\Type\RequiredValue|null $required
      */
     final public function __construct(
-        protected ?string $soapAction = null,
-        protected ?bool $soapActionRequired = null,
-        protected ?string $style = null,
-        ?bool $required = null,
+        protected ?AnyURIValue $soapAction = null,
+        protected ?BooleanValue $soapActionRequired = null,
+        protected ?StyleChoiceValue $style = null,
+        ?RequiredValue $required = null,
     ) {
-        Assert::nullOrValidURI($soapAction, SchemaViolationException::class);
-        Assert::nullOrOneOf($style, ['rpc', 'document'], SchemaViolationException::class);
-
         parent::__construct($required);
     }
 
@@ -57,9 +55,9 @@ abstract class AbstractOperation extends AbstractExtensibilityElement
     /**
      * Collect the value of the soapAction-property.
      *
-     * @return string|null
+     * @return \SimpleSAML\XMLSchema\Type\AnyURIValue|null
      */
-    public function getSoapAction(): ?string
+    public function getSoapAction(): ?AnyURIValue
     {
         return $this->soapAction;
     }
@@ -68,9 +66,9 @@ abstract class AbstractOperation extends AbstractExtensibilityElement
     /**
      * Collect the value of the soapActionRequired-property.
      *
-     * @return bool|null
+     * @return \SimpleSAML\XMLSchema\Type\BooleanValue|null
      */
-    public function getSoapActionRequired(): ?bool
+    public function getSoapActionRequired(): ?BooleanValue
     {
         return $this->soapActionRequired;
     }
@@ -79,9 +77,9 @@ abstract class AbstractOperation extends AbstractExtensibilityElement
     /**
      * Collect the value of the style-property.
      *
-     * @return string|null
+     * @return \SimpleSAML\WSDL\Type\StyleChoiceValue|null
      */
-    public function getStyle(): ?string
+    public function getStyle(): ?StyleChoiceValue
     {
         return $this->style;
     }
@@ -107,7 +105,7 @@ abstract class AbstractOperation extends AbstractExtensibilityElement
      * @param \DOMElement $xml The XML element we should load.
      * @return static
      *
-     * @throws \SimpleSAML\XML\Exception\InvalidDOMElementException
+     * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong
      */
     public static function fromXML(DOMElement $xml): static
@@ -117,15 +115,13 @@ abstract class AbstractOperation extends AbstractExtensibilityElement
 
         $required = null;
         if ($xml->hasAttributeNS(C::NS_WSDL, 'required')) {
-            $required = $xml->getAttributeNS(C::NS_WSDL, 'required');
-            Assert::oneOf($required, ['0', '1', 'false', 'true'], SchemaViolationException::class);
-            $required = in_array($required, ['1', 'true'], true);
+            $required = RequiredValue::fromString($xml->getAttributeNS(C::NS_WSDL, 'required'));
         }
 
         return new static(
-            self::getOptionalAttribute($xml, 'soapAction'),
-            self::getOptionalBooleanAttribute($xml, 'soapActionRequired'),
-            self::getOptionalAttribute($xml, 'style'),
+            self::getOptionalAttribute($xml, 'soapAction', AnyURIValue::class),
+            self::getOptionalAttribute($xml, 'soapActionRequired', BooleanValue::class),
+            self::getOptionalAttribute($xml, 'style', StyleChoiceValue::class),
             $required,
         );
     }
@@ -142,15 +138,15 @@ abstract class AbstractOperation extends AbstractExtensibilityElement
         $e = parent::toXML($parent);
 
         if ($this->getSoapAction() !== null) {
-            $e->setAttribute('soapAction', $this->getSoapAction());
+            $e->setAttribute('soapAction', $this->getSoapAction()->getValue());
         }
 
         if ($this->getSoapActionRequired() !== null) {
-            $e->setAttribute('soapActionRequired', $this->getSoapActionRequired() ? 'true' : 'false');
+            $e->setAttribute('soapActionRequired', $this->getSoapActionRequired()->getValue());
         }
 
         if ($this->getStyle() !== null) {
-            $e->setAttribute('style', $this->getStyle());
+            $e->setAttribute('style', $this->getStyle()->getValue());
         }
 
         return $e;

@@ -6,7 +6,8 @@ namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
 use SimpleSAML\WSDL\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XMLSchema\Exception\SchemaViolationException;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
 
 use function array_map;
 
@@ -20,16 +21,15 @@ abstract class AbstractMessage extends AbstractExtensibleDocumented
     /**
      * Initialize a wsdl:tMessage
      *
-     * @param string $name
+     * @param \SimpleSAML\XMLSchema\Type\NCNameValue $name
      * @param \SimpleSAML\WSDL\XML\wsdl\Part[] $parts
      * @param \SimpleSAML\XML\SerializableElementInterface[] $elements
      */
     public function __construct(
-        protected string $name,
+        protected NCNameValue $name,
         protected array $parts,
         array $elements = [],
     ) {
-        Assert::validNCName($name, SchemaViolationException::class);
         Assert::allIsInstanceOf($parts, Part::class, SchemaViolationException::class);
 
         $partNames = array_map(
@@ -47,9 +47,9 @@ abstract class AbstractMessage extends AbstractExtensibleDocumented
     /**
      * Collect the value of the name-property.
      *
-     * @return string
+     * @return \SimpleSAML\XMLSchema\Type\NCNameValue
      */
-    public function getName(): string
+    public function getName(): NCNameValue
     {
         return $this->name;
     }
@@ -87,7 +87,7 @@ abstract class AbstractMessage extends AbstractExtensibleDocumented
     public function toXML(?DOMElement $parent = null): DOMElement
     {
         $e = parent::toXML($parent);
-        $e->setAttribute('name', $this->getName());
+        $e->setAttribute('name', $this->getName()->getValue());
 
         foreach ($this->getParts() as $part) {
             $part->toXML($e);

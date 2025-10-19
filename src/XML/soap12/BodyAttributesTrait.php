@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace SimpleSAML\WSDL\XML\soap12;
 
-use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\WSDL\Type\UseChoiceValue;
+use SimpleSAML\XMLSchema\Type\AnyURIValue;
 
 /**
  * Trait representing the tBodyAttributes group.
@@ -14,22 +14,22 @@ use SimpleSAML\XML\Exception\SchemaViolationException;
  */
 trait BodyAttributesTrait
 {
-    /** @var string|null */
-    protected ?string $encodingStyle;
+    /** @var \SimpleSAML\XMLSchema\Type\AnyURIValue|null */
+    protected ?AnyURIValue $encodingStyle;
 
-    /** @var string|null */
-    protected ?string $use;
+    /** @var \SimpleSAML\WSDL\Type\UseChoiceValue|null */
+    protected ?UseChoiceValue $use;
 
-    /** @var string|null */
-    protected ?string $namespace;
+    /** @var \SimpleSAML\XMLSchema\Type\AnyURIValue|null */
+    protected ?AnyURIValue $namespace;
 
 
     /**
      * Collect the value of the encodingStyle-property
      *
-     * @return string|null
+     * @return \SimpleSAML\XMLSchema\Type\AnyURIValue|null
      */
-    public function getEncodingStyle(): ?string
+    public function getEncodingStyle(): ?AnyURIValue
     {
         return $this->encodingStyle;
     }
@@ -38,11 +38,10 @@ trait BodyAttributesTrait
     /**
      * Set the value of the encodingStyle-property
      *
-     * @param string|null $encodingStyle
+     * @param \SimpleSAML\XMLSchema\Type\AnyURIValue|null $encodingStyle
      */
-    protected function setEncodingStyle(?string $encodingStyle = null): void
+    protected function setEncodingStyle(?AnyURIValue $encodingStyle = null): void
     {
-        Assert::nullOrValidURI($encodingStyle, SchemaViolationException::class);
         $this->encodingStyle = $encodingStyle;
     }
 
@@ -50,9 +49,9 @@ trait BodyAttributesTrait
     /**
      * Collect the value of the use-property
      *
-     * @return string|null
+     * @return \SimpleSAML\WSDL\Type\UseChoiceValue|null
      */
-    public function getUse(): ?string
+    public function getUse(): ?UseChoiceValue
     {
         return $this->use;
     }
@@ -61,11 +60,10 @@ trait BodyAttributesTrait
     /**
      * Set the value of the use-property
      *
-     * @param string|null $use
+     * @param \SimpleSAML\WSDL\Type\UseChoiceValue|null $use
      */
-    protected function setUse(?string $use = null): void
+    protected function setUse(?UseChoiceValue $use = null): void
     {
-        Assert::nullOrOneOf($use, ['literal', 'encoded'], SchemaViolationException::class);
         $this->use = $use;
     }
 
@@ -73,9 +71,9 @@ trait BodyAttributesTrait
     /**
      * Collect the value of the namespace-property
      *
-     * @return string|null
+     * @return \SimpleSAML\XMLSchema\Type\AnyURIValue|null
      */
-    public function getNamespace(): ?string
+    public function getNamespace(): ?AnyURIValue
     {
         return $this->namespace;
     }
@@ -84,11 +82,10 @@ trait BodyAttributesTrait
     /**
      * Set the value of the namespace-property
      *
-     * @param string|null $namespace
+     * @param \SimpleSAML\XMLSchema\Type\AnyURIValue|null $namespace
      */
-    protected function setNamespace(?string $namespace = null): void
+    protected function setNamespace(?AnyURIValue $namespace = null): void
     {
-        Assert::nullOrValidURI($namespace, SchemaViolationException::class);
         $this->namespace = $namespace;
     }
 }

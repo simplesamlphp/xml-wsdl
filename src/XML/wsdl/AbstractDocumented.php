@@ -16,10 +16,10 @@ abstract class AbstractDocumented extends AbstractWsdlElement
     /**
      * Initialize a wsdl:tDocumented
      *
-     * @TODO @param \SimpleSAML\WSDL\XML\wsdl\Documentation|null $documentation
+     * @todo @param \SimpleSAML\WSDL\XML\wsdl\Documentation|null $documentation
      */
     public function __construct(
-        /*protected ?Documentation $documentation = null,*/
+        //protected ?Documentation $documentation = null,
     ) {
     }
 
@@ -42,7 +42,7 @@ abstract class AbstractDocumented extends AbstractWsdlElement
      */
     public function isEmptyElement(): bool
     {
-        return /*empty($this->documentation)*/ true;
+        return /*empty($this->getDocumentation())*/ true;
     }
 
 

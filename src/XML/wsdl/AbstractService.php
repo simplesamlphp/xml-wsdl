@@ -6,7 +6,8 @@ namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
 use SimpleSAML\WSDL\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XMLSchema\Exception\SchemaViolationException;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
 
 use function array_map;
 
@@ -20,16 +21,15 @@ abstract class AbstractService extends AbstractExtensibleDocumented
     /**
      * Initialize a wsdl:tService
      *
-     * @param string $name
+     * @param \SimpleSAML\XMLSchema\Type\NCNameValue $name
      * @param \SimpleSAML\WSDL\XML\wsdl\Port[] $ports
      * @param \SimpleSAML\XML\SerializableElementInterface[] $elements
      */
     public function __construct(
-        protected string $name,
+        protected NCNameValue $name,
         protected array $ports,
         array $elements = [],
     ) {
-        Assert::validNCName($name, SchemaViolationException::class);
         Assert::allIsInstanceOf($ports, Port::class, SchemaViolationException::class);
 
         $portNames = array_map(
@@ -47,9 +47,9 @@ abstract class AbstractService extends AbstractExtensibleDocumented
     /**
      * Collect the value of the name-property.
      *
-     * @return string
+     * @return \SimpleSAML\XMLSchema\Type\NCNameValue
      */
-    public function getName(): string
+    public function getName(): NCNameValue
     {
         return $this->name;
     }
@@ -88,7 +88,7 @@ abstract class AbstractService extends AbstractExtensibleDocumented
     {
         $e = parent::toXML($parent);
 
-        $e->setAttribute('name', $this->getName());
+        $e->setAttribute('name', $this->getName()->getValue());
 
         foreach ($this->getPorts() as $port) {
             $port->toXML($e);

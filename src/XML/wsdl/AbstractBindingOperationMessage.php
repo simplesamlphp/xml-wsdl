@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
-use SimpleSAML\WSDL\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
 
 /**
  * Abstract class representing the tBindingOperationMessage type.
@@ -18,14 +17,13 @@ abstract class AbstractBindingOperationMessage extends AbstractExtensibleDocumen
     /**
      * Initialize a wsdl:tBindingOperationMessage
      *
-     * @param string|null $name
+     * @param \SimpleSAML\XMLSchema\Type\NCNameValue|null $name
      * @param \SimpleSAML\XML\SerializableElementInterface[] $elements
      */
     public function __construct(
-        protected ?string $name = null,
+        protected ?NCNameValue $name = null,
         array $elements = [],
     ) {
-        Assert::nullOrValidNCName($name, SchemaViolationException::class);
         parent::__construct($elements);
     }
 
@@ -33,9 +31,9 @@ abstract class AbstractBindingOperationMessage extends AbstractExtensibleDocumen
     /**
      * Collect the value of the name-property.
      *
-     * @return string|null
+     * @return \SimpleSAML\XMLSchema\Type\NCNameValue|null
      */
-    public function getName(): ?string
+    public function getName(): ?NCNameValue
     {
         return $this->name;
     }
@@ -63,7 +61,7 @@ abstract class AbstractBindingOperationMessage extends AbstractExtensibleDocumen
         $e = parent::toXML($parent);
 
         if ($this->getName() !== null) {
-            $e->setAttribute('name', $this->getName());
+            $e->setAttribute('name', $this->getName()->getValue());
         }
 
         return $e;

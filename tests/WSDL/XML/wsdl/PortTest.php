@@ -14,6 +14,8 @@ use SimpleSAML\WSDL\XML\wsdl\Port;
 use SimpleSAML\XML\Chunk;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\SerializableElementTestTrait;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
+use SimpleSAML\XMLSchema\Type\QNameValue;
 
 use function dirname;
 use function strval;
@@ -56,7 +58,12 @@ final class PortTest extends TestCase
         $child = DOMDocumentFactory::fromString(
             '<ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">SomeChunk</ssp:Chunk>',
         );
-        $port = new Port('CustomName', 'ssp:CustomBinding', [new Chunk($child->documentElement)]);
+
+        $port = new Port(
+            NCNameValue::fromString('CustomName'),
+            QNameValue::fromString('{urn:x-simplesamlphp:namespace}ssp:CustomBinding'),
+            [new Chunk($child->documentElement)],
+        );
 
         $this->assertEquals(
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),

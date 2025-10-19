@@ -15,6 +15,8 @@ use SimpleSAML\WSDL\XML\wsdl\Import;
 use SimpleSAML\XML\Attribute as XMLAttribute;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\SerializableElementTestTrait;
+use SimpleSAML\XMLSchema\Type\AnyURIValue;
+use SimpleSAML\XMLSchema\Type\StringValue;
 
 use function dirname;
 use function strval;
@@ -54,8 +56,12 @@ final class ImportTest extends TestCase
      */
     public function testMarshalling(): void
     {
-        $attr1 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr1', 'value1');
-        $import = new Import('urn:x-simplesamlphp:namespace', 'urn:x-simplesamlphp:location', [$attr1]);
+        $attr1 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr1', StringValue::fromString('value1'));
+        $import = new Import(
+            AnyURIValue::fromString('urn:x-simplesamlphp:namespace'),
+            AnyURIValue::fromString('urn:x-simplesamlphp:location'),
+            [$attr1],
+        );
 
         $this->assertEquals(
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),

@@ -19,6 +19,8 @@ use SimpleSAML\WSDL\XML\wsdl\BindingOperationOutput;
 use SimpleSAML\XML\Chunk;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\SerializableElementTestTrait;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
+use SimpleSAML\XMLSchema\Type\QNameValue;
 
 use function dirname;
 use function strval;
@@ -78,23 +80,35 @@ final class BindingTest extends TestCase
             '<ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">FaultTwoChunk</ssp:Chunk>',
         );
 
-        $input = new BindingOperationInput('CustomInputName', [new Chunk($inputChild->documentElement)]);
-        $output = new BindingOperationOutput('CustomOutputName', [new Chunk($outputChild->documentElement)]);
-        $faultOne = new BindingOperationFault('CustomFaultOne', [new Chunk($faultOneChild->documentElement)]);
-        $faultTwo = new BindingOperationFault('CustomFaultTwo', [new Chunk($faultTwoChild->documentElement)]);
+        $input = new BindingOperationInput(
+            NCNameValue::fromString('CustomInputName'),
+            [new Chunk($inputChild->documentElement)],
+        );
+        $output = new BindingOperationOutput(
+            NCNameValue::fromString('CustomOutputName'),
+            [new Chunk($outputChild->documentElement)],
+        );
+        $faultOne = new BindingOperationFault(
+            NCNameValue::fromString('CustomFaultOne'),
+            [new Chunk($faultOneChild->documentElement)],
+        );
+        $faultTwo = new BindingOperationFault(
+            NCNameValue::fromString('CustomFaultTwo'),
+            [new Chunk($faultTwoChild->documentElement)],
+        );
 
         $operationOne = new BindingOperation(
-            'OperationOne',
+            NCNameValue::fromString('OperationOne'),
             $input,
             $output,
             [$faultOne, $faultTwo],
             [new Chunk($operationChild->documentElement)],
         );
-        $operationTwo = new BindingOperation('OperationTwo');
+        $operationTwo = new BindingOperation(NCNameValue::fromString('OperationTwo'));
 
         $binding = new Binding(
-            'MyBinding',
-            'ssp:CustomType',
+            NCNameValue::fromString('MyBinding'),
+            QNameValue::fromString('{urn:x-simplesamlphp:namespace}ssp:CustomType'),
             [$operationOne, $operationTwo],
             [new Chunk($child->documentElement)],
         );

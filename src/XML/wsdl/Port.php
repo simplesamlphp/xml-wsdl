@@ -6,7 +6,9 @@ namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
 use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Exception\InvalidDOMElementException;
+use SimpleSAML\XMLSchema\Exception\InvalidDOMElementException;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
+use SimpleSAML\XMLSchema\Type\QNameValue;
 
 /**
  * Class representing the Port element.
@@ -25,7 +27,7 @@ final class Port extends AbstractPort
      * @param \DOMElement $xml The XML element we should load.
      * @return static
      *
-     * @throws \SimpleSAML\XML\Exception\InvalidDOMElementException
+     * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong
      */
     public static function fromXML(DOMElement $xml): static
@@ -34,8 +36,8 @@ final class Port extends AbstractPort
         Assert::same($xml->namespaceURI, static::NS, InvalidDOMElementException::class);
 
         return new static(
-            self::getAttribute($xml, 'name'),
-            self::getAttribute($xml, 'binding'),
+            self::getAttribute($xml, 'name', NCNameValue::class),
+            self::getAttribute($xml, 'binding', QNameValue::class),
             self::getChildElementsFromXML($xml),
         );
     }

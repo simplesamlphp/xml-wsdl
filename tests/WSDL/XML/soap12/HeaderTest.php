@@ -7,6 +7,9 @@ namespace SimpleSAML\Test\WSDL\XML\soap12;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use SimpleSAML\WSDL\Enumeration\UseChoiceEnum;
+use SimpleSAML\WSDL\Type\RequiredValue;
+use SimpleSAML\WSDL\Type\UseChoiceValue;
 use SimpleSAML\WSDL\XML\soap12\AbstractHeader;
 use SimpleSAML\WSDL\XML\soap12\BodyAttributesTrait;
 use SimpleSAML\WSDL\XML\soap12\Header;
@@ -16,6 +19,9 @@ use SimpleSAML\WSDL\XML\wsdl\AbstractWsdlElement;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\SchemaValidationTestTrait;
 use SimpleSAML\XML\TestUtils\SerializableElementTestTrait;
+use SimpleSAML\XMLSchema\Type\AnyURIValue;
+use SimpleSAML\XMLSchema\Type\NMTokensValue;
+use SimpleSAML\XMLSchema\Type\QNameValue;
 
 use function dirname;
 use function strval;
@@ -58,21 +64,21 @@ final class HeaderTest extends TestCase
     public function testMarshalling(): void
     {
         $headerFault = new HeaderFault(
-            'soap12:tOperation',
-            'foo bar',
-            'literal',
-            'urn:x-simplesamlphp:coding',
-            'urn:x-simplesamlphp:namespace',
+            QNameValue::fromString('{http://schemas.xmlsoap.org/wsdl/soap12/}soap12:tOperation'),
+            NMTokensValue::fromString('foo bar'),
+            UseChoiceValue::fromEnum(UseChoiceEnum::Literal),
+            AnyURIValue::fromString('urn:x-simplesamlphp:coding'),
+            AnyURIValue::fromString('urn:x-simplesamlphp:namespace'),
         );
 
         $header = new Header(
-            'soap12:tOperation',
-            'foo bar',
-            'literal',
+            QNameValue::fromString('{http://schemas.xmlsoap.org/wsdl/soap12/}soap12:tOperation'),
+            NMTokensValue::fromString('foo bar'),
+            UseChoiceValue::fromEnum(UseChoiceEnum::Literal),
             [$headerFault],
-            'urn:x-simplesamlphp:coding',
-            'urn:x-simplesamlphp:namespace',
-            true,
+            AnyURIValue::fromString('urn:x-simplesamlphp:coding'),
+            AnyURIValue::fromString('urn:x-simplesamlphp:namespace'),
+            RequiredValue::fromBoolean(true),
         );
 
         $this->assertEquals(

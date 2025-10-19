@@ -8,6 +8,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use SimpleSAML\WSDL\Constants as C;
+use SimpleSAML\WSDL\Enumeration\UseChoiceEnum;
+use SimpleSAML\WSDL\Type\RequiredValue;
+use SimpleSAML\WSDL\Type\UseChoiceValue;
 use SimpleSAML\WSDL\XML\soap12\AbstractBody;
 use SimpleSAML\WSDL\XML\soap12\Body;
 use SimpleSAML\WSDL\XML\soap12\BodyAttributesTrait;
@@ -16,6 +19,8 @@ use SimpleSAML\WSDL\XML\wsdl\AbstractWsdlElement;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\SchemaValidationTestTrait;
 use SimpleSAML\XML\TestUtils\SerializableElementTestTrait;
+use SimpleSAML\XMLSchema\Type\AnyURIValue;
+use SimpleSAML\XMLSchema\Type\NMTokensValue;
 
 use function dirname;
 use function strval;
@@ -57,7 +62,13 @@ final class BodyTest extends TestCase
      */
     public function testMarshalling(): void
     {
-        $body = new Body('foo bar', 'urn:x-simplesamlphp:coding', 'literal', 'urn:x-simplesamlphp:namespace', true);
+        $body = new Body(
+            NMTokensValue::fromString('foo bar'),
+            AnyURIValue::fromString('urn:x-simplesamlphp:coding'),
+            UseChoiceValue::fromEnum(UseChoiceEnum::Literal),
+            AnyURIValue::fromString('urn:x-simplesamlphp:namespace'),
+            RequiredValue::fromBoolean(true),
+        );
 
         $this->assertEquals(
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),

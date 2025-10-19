@@ -7,10 +7,10 @@ namespace SimpleSAML\WSDL\XML\soap12;
 use DOMElement;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\WSDL\Constants as C;
-use SimpleSAML\XML\Exception\InvalidDOMElementException;
-use SimpleSAML\XML\Exception\SchemaViolationException;
-
-use function in_array;
+use SimpleSAML\WSDL\Type\RequiredValue;
+use SimpleSAML\WSDL\Type\UseChoiceValue;
+use SimpleSAML\XMLSchema\Exception\InvalidDOMElementException;
+use SimpleSAML\XMLSchema\Type\AnyURIValue;
 
 /**
  * Abstract class representing the tFault type.
@@ -26,16 +26,16 @@ abstract class AbstractFault extends AbstractBody
     /**
      * Initialize a soap12:fault
      *
-     * @param string|null $encodingStyle
-     * @param string|null $use
-     * @param string|null $namespace
-     * @param bool|null $required
+     * @param \SimpleSAML\XMLSchema\Type\AnyURIValue|null $encodingStyle
+     * @param \SimpleSAML\WSDL\Type\UseChoiceValue|null $use
+     * @param \SimpleSAML\XMLSchema\Type\AnyURIValue|null $namespace
+     * @param \SimpleSAML\WSDL\Type\RequiredValue|null $required
      */
     final public function __construct(
-        ?string $encodingStyle = null,
-        ?string $use = null,
-        ?string $namespace = null,
-        ?bool $required = null,
+        ?AnyURIValue $encodingStyle = null,
+        ?UseChoiceValue $use = null,
+        ?AnyURIValue $namespace = null,
+        ?RequiredValue $required = null,
     ) {
         parent::__construct(
             parts: null,
@@ -53,7 +53,7 @@ abstract class AbstractFault extends AbstractBody
      * @param \DOMElement $xml The XML element we should load.
      * @return static
      *
-     * @throws \SimpleSAML\XML\Exception\InvalidDOMElementException
+     * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong
      */
     public static function fromXML(DOMElement $xml): static
@@ -63,15 +63,13 @@ abstract class AbstractFault extends AbstractBody
 
         $required = null;
         if ($xml->hasAttributeNS(C::NS_WSDL, 'required')) {
-            $required = $xml->getAttributeNS(C::NS_WSDL, 'required');
-            Assert::oneOf($required, ['0', '1', 'false', 'true'], SchemaViolationException::class);
-            $required = in_array($required, ['1', 'true'], true);
+            $required = RequiredValue::fromString($xml->getAttributeNS(C::NS_WSDL, 'required'));
         }
 
         return new static(
-            self::getOptionalAttribute($xml, 'encodingStyle'),
-            self::getOptionalAttribute($xml, 'use'),
-            self::getOptionalAttribute($xml, 'namespace'),
+            self::getOptionalAttribute($xml, 'encodingStyle', AnyURIValue::class),
+            self::getOptionalAttribute($xml, 'use', UseChoiceValue::class),
+            self::getOptionalAttribute($xml, 'namespace', AnyURIValue::class),
             $required,
         );
     }

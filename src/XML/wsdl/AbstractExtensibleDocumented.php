@@ -6,7 +6,7 @@ namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
 use SimpleSAML\XML\ExtendableElementTrait;
-use SimpleSAML\XML\XsNamespace as NS;
+use SimpleSAML\XMLSchema\XML\Constants\NS;
 
 /**
  * Abstract class representing the tExtensibleDocumented type.
@@ -17,8 +17,10 @@ abstract class AbstractExtensibleDocumented extends AbstractDocumented
 {
     use ExtendableElementTrait;
 
+
     /** The namespace-attribute for the xs:any element */
     public const XS_ANY_ELT_NAMESPACE = NS::OTHER;
+
 
     /**
      * Initialize a wsdl:tDocumented

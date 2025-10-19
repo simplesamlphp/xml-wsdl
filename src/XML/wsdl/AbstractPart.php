@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
-use SimpleSAML\WSDL\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
+use SimpleSAML\XMLSchema\Type\QNameValue;
 
 /**
  * Abstract class representing the tPart type.
@@ -18,21 +18,17 @@ abstract class AbstractPart extends AbstractExtensibleAttributesDocumented
     /**
      * Initialize a wsdl:tPart
      *
-     * @param string $name
-     * @param string|null $element
-     * @param string|null $type
+     * @param \SimpleSAML\XMLSchema\Type\NCNameValue $name
+     * @param \SimpleSAML\XMLSchema\Type\QNameValue|null $element
+     * @param \SimpleSAML\XMLSchema\Type\QNameValue|null $type
      * @param \SimpleSAML\XML\Attribute[] $attributes
      */
     public function __construct(
-        protected string $name,
-        protected ?string $element = null,
-        protected ?string $type = null,
+        protected NCNameValue $name,
+        protected ?QNameValue $element = null,
+        protected ?QNameValue $type = null,
         array $attributes = [],
     ) {
-        Assert::validNCName($name, SchemaViolationException::class);
-        Assert::nullOrValidQName($element, SchemaViolationException::class);
-        Assert::nullOrValidQName($type, SchemaViolationException::class);
-
         parent::__construct($attributes);
     }
 
@@ -40,9 +36,9 @@ abstract class AbstractPart extends AbstractExtensibleAttributesDocumented
     /**
      * Collect the value of the name-property.
      *
-     * @return string
+     * @return \SimpleSAML\XMLSchema\Type\NCNameValue
      */
-    public function getName(): string
+    public function getName(): NCNameValue
     {
         return $this->name;
     }
@@ -51,9 +47,9 @@ abstract class AbstractPart extends AbstractExtensibleAttributesDocumented
     /**
      * Collect the value of the element-property.
      *
-     * @return string|null
+     * @return \SimpleSAML\XMLSchema\Type\QNameValue|null
      */
-    public function getElement(): ?string
+    public function getElement(): ?QNameValue
     {
         return $this->element;
     }
@@ -62,9 +58,9 @@ abstract class AbstractPart extends AbstractExtensibleAttributesDocumented
     /**
      * Collect the value of the type-property.
      *
-     * @return string|null
+     * @return \SimpleSAML\XMLSchema\Type\QNameValue|null
      */
-    public function getType(): ?string
+    public function getType(): ?QNameValue
     {
         return $this->type;
     }
@@ -92,14 +88,14 @@ abstract class AbstractPart extends AbstractExtensibleAttributesDocumented
     {
         $e = parent::toXML($parent);
 
-        $e->setAttribute('name', $this->getName());
+        $e->setAttribute('name', $this->getName()->getValue());
 
         if ($this->getElement() !== null) {
-            $e->setAttribute('element', $this->getElement());
+            $e->setAttribute('element', $this->getElement()->getValue());
         }
 
         if ($this->getType() !== null) {
-            $e->setAttribute('type', $this->getType());
+            $e->setAttribute('type', $this->getType()->getValue());
         }
 
         return $e;

@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
-use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XMLSchema\Type\AnyURIValue;
 
 /**
  * Abstract class representing the tImport type.
@@ -18,18 +17,15 @@ abstract class AbstractImport extends AbstractExtensibleAttributesDocumented
     /**
      * Initialize a wsdl:tImport
      *
-     * @param string $namespace
-     * @param string $location
+     * @param \SimpleSAML\XMLSchema\Type\AnyURIValue $namespace
+     * @param \SimpleSAML\XMLSchema\Type\AnyURIValue $location
      * @param array<\SimpleSAML\XML\Attribute> $attributes
      */
     public function __construct(
-        protected string $namespace,
-        protected string $location,
+        protected AnyURIValue $namespace,
+        protected AnyURIValue $location,
         array $attributes = [],
     ) {
-        Assert::validURI($namespace, SchemaViolationException::class);
-        Assert::validURI($location, SchemaViolationException::class);
-
         parent::__construct($attributes);
     }
 
@@ -37,9 +33,9 @@ abstract class AbstractImport extends AbstractExtensibleAttributesDocumented
     /**
      * Collect the value of the namespace-property.
      *
-     * @return string
+     * @return \SimpleSAML\XMLSchema\Type\AnyURIValue
      */
-    public function getNamespace(): string
+    public function getNamespace(): AnyURIValue
     {
         return $this->namespace;
     }
@@ -48,9 +44,9 @@ abstract class AbstractImport extends AbstractExtensibleAttributesDocumented
     /**
      * Collect the value of the location-property.
      *
-     * @return string
+     * @return \SimpleSAML\XMLSchema\Type\AnyURIValue
      */
-    public function getLocation(): string
+    public function getLocation(): AnyURIValue
     {
         return $this->location;
     }
@@ -78,8 +74,8 @@ abstract class AbstractImport extends AbstractExtensibleAttributesDocumented
     {
         $e = parent::toXML($parent);
 
-        $e->setAttribute('namespace', $this->getNamespace());
-        $e->setAttribute('location', $this->getLocation());
+        $e->setAttribute('namespace', $this->getNamespace()->getValue());
+        $e->setAttribute('location', $this->getLocation()->getValue());
 
         return $e;
     }

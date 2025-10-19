@@ -34,6 +34,12 @@ use SimpleSAML\XML\Chunk;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\SchemaValidationTestTrait;
 use SimpleSAML\XML\TestUtils\SerializableElementTestTrait;
+use SimpleSAML\XMLSchema\Type\AnyURIValue;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
+use SimpleSAML\XMLSchema\Type\NMTokensValue;
+use SimpleSAML\XMLSchema\Type\QNameValue;
+use SimpleSAML\XMLSchema\Type\StringValue;
+use SimpleSAML\XMLSchema\Type\UnsignedShortValue;
 
 use function dirname;
 use function strval;
@@ -76,8 +82,12 @@ final class DefinitionsTest extends TestCase
     public function testMarshalling(): void
     {
         // Import
-        $importAttr1 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr1', 'value1');
-        $import = new Import('urn:x-simplesamlphp:namespace', 'urn:x-simplesamlphp:location', [$importAttr1]);
+        $importAttr1 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr1', StringValue::fromString('value1'));
+        $import = new Import(
+            AnyURIValue::fromString('urn:x-simplesamlphp:namespace'),
+            AnyURIValue::fromString('urn:x-simplesamlphp:location'),
+            [$importAttr1],
+        );
 
         // Types
         $typesChild = DOMDocumentFactory::fromString(
@@ -91,25 +101,56 @@ final class DefinitionsTest extends TestCase
             '<ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">MessageChunk</ssp:Chunk>',
         );
 
-        $messageAttr1 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr1', 'value1');
-        $messageAttr2 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr2', 'value2');
-        $part1 = new Part('CustomName', 'ssp:CustomElement', 'wsdl:part', [$messageAttr1]);
+        $messageAttr1 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr1', StringValue::fromString('value1'));
+        $messageAttr2 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr2', StringValue::fromString('value2'));
+        $part1 = new Part(
+            NCNameValue::fromString('CustomName'),
+            QNameValue::fromString('{urn:x-simplesamlphp:namespace}ssp:CustomElement'),
+            QNameValue::fromParts(
+                NCNameValue::fromString('part'),
+                AnyURIValue::fromString(C::NS_WSDL),
+                NCNameValue::fromString('wsdl'),
+            ),
+            [$messageAttr1],
+        );
 
-        $message = new Message('SomeName', [$part1], [new Chunk($messageChild->documentElement)]);
+        $message = new Message(
+            NCNameValue::fromString('SomeName'),
+            [$part1],
+            [new Chunk($messageChild->documentElement)],
+        );
 
         // PortType
-        $port = new XMLAttribute(C::NAMESPACE, 'ssp', 'port', '1234');
-        $portAttr1 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr1', 'value1');
-        $portAttr2 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr2', 'value2');
-        $portAttr3 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr3', 'value3');
+        $port = new XMLAttribute(C::NAMESPACE, 'ssp', 'port', UnsignedShortValue::fromInteger(1234));
+        $portAttr1 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr1', StringValue::fromString('value1'));
+        $portAttr2 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr2', StringValue::fromString('value2'));
+        $portAttr3 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr3', StringValue::fromString('value3'));
 
-        $input = new Input('ssp:CustomInputMessage', 'CustomInputName', [$portAttr1]);
-        $output = new Output('ssp:CustomOutputMessage', 'CustomOutputName', [$portAttr2]);
-        $fault = new Fault('CustomFaultName', 'ssp:CustomFaultMessage', [$portAttr3]);
+        $input = new Input(
+            QNameValue::fromString('{urn:x-simplesamlphp:namespace}ssp:CustomInputMessage'),
+            NCNameValue::fromString('CustomInputName'),
+            [$portAttr1],
+        );
+        $output = new Output(
+            QNameValue::fromString('{urn:x-simplesamlphp:namespace}ssp:CustomOutputMessage'),
+            NCNameValue::fromString('CustomOutputName'),
+            [$portAttr2],
+        );
+        $fault = new Fault(
+            NCNameValue::fromString('CustomFaultName'),
+            QNameValue::fromString('{urn:x-simplesamlphp:namespace}ssp:CustomFaultMessage'),
+            [$portAttr3],
+        );
 
-        $inputOperation = new Operation('Input', '0836217462 0836217463', $input, $output, [$fault]);
+        $inputOperation = new Operation(
+            NCNameValue::fromString('Input'),
+            NMTokensValue::fromString('0836217462 0836217463'),
+            $input,
+            $output,
+            [$fault],
+        );
 
-        $portType = new PortType('MyPort', [$inputOperation], [$port]);
+        $portType = new PortType(NCNameValue::fromString('MyPort'), [$inputOperation], [$port]);
 
         // Binding
         $bindingChild = DOMDocumentFactory::fromString(
@@ -131,12 +172,21 @@ final class DefinitionsTest extends TestCase
             '<ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">FaultTwoChunk</ssp:Chunk>',
         );
 
-        $input = new BindingOperationInput('CustomInputName', [new Chunk($inputChild->documentElement)]);
-        $output = new BindingOperationOutput('CustomOutputName', [new Chunk($outputChild->documentElement)]);
-        $faultOne = new BindingOperationFault('CustomFaultOne', [new Chunk($faultOneChild->documentElement)]);
+        $input = new BindingOperationInput(
+            NCNameValue::fromString('CustomInputName'),
+            [new Chunk($inputChild->documentElement)],
+        );
+        $output = new BindingOperationOutput(
+            NCNameValue::fromString('CustomOutputName'),
+            [new Chunk($outputChild->documentElement)],
+        );
+        $faultOne = new BindingOperationFault(
+            NCNameValue::fromString('CustomFaultOne'),
+            [new Chunk($faultOneChild->documentElement)],
+        );
 
         $operationOne = new BindingOperation(
-            'OperationOne',
+            NCNameValue::fromString('OperationOne'),
             $input,
             $output,
             [$faultOne],
@@ -144,8 +194,12 @@ final class DefinitionsTest extends TestCase
         );
 
         $binding = new Binding(
-            'MyBinding',
-            'wsdl:binding',
+            NCNameValue::fromString('MyBinding'),
+            QNameValue::fromParts(
+                NCNameValue::fromString('binding'),
+                AnyURIValue::fromString(C::NS_WSDL),
+                NCNameValue::fromString('wsdl'),
+            ),
             [$operationOne],
             [new Chunk($bindingChild->documentElement)],
         );
@@ -161,9 +215,21 @@ final class DefinitionsTest extends TestCase
             '<ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">ChunkTwo</ssp:Chunk>',
         );
 
-        $portOne = new Port('PortOne', 'wsdl:binding', [new Chunk($chunkOne->documentElement)]);
+        $portOne = new Port(
+            NCNameValue::fromString('PortOne'),
+            QNameValue::fromParts(
+                NCNameValue::fromString('binding'),
+                AnyURIValue::fromString(C::NS_WSDL),
+                NCNameValue::fromString('wsdl'),
+            ),
+            [new Chunk($chunkOne->documentElement)],
+        );
 
-        $service = new Service('MyService', [$portOne], [new Chunk($serviceChild->documentElement)]);
+        $service = new Service(
+            NCNameValue::fromString('MyService'),
+            [$portOne],
+            [new Chunk($serviceChild->documentElement)],
+        );
 
         // Child
         $child = DOMDocumentFactory::fromString(
@@ -171,8 +237,8 @@ final class DefinitionsTest extends TestCase
         );
 
         $definitions = new Definitions(
-            'urn:x-simplesamlphp:namespace',
-            'MyDefinitions',
+            AnyURIValue::fromString('urn:x-simplesamlphp:namespace'),
+            NCNameValue::fromString('MyDefinitions'),
             [$import],
             [$types],
             [$message],

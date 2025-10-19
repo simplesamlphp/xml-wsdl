@@ -15,6 +15,8 @@ use SimpleSAML\WSDL\XML\wsdl\Service;
 use SimpleSAML\XML\Chunk;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\SerializableElementTestTrait;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
+use SimpleSAML\XMLSchema\Type\QNameValue;
 
 use function dirname;
 use function strval;
@@ -64,11 +66,23 @@ final class ServiceTest extends TestCase
             '<ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">ChunkTwo</ssp:Chunk>',
         );
 
-        $portOne = new Port('PortOne', 'ssp:CustomBinding', [new Chunk($chunkOne->documentElement)]);
-        $portTwo = new Port('PortTwo', 'ssp:CustomBinding', [new Chunk($chunkTwo->documentElement)]);
+        $portOne = new Port(
+            NCNameValue::fromString('PortOne'),
+            QNameValue::fromString('{urn:x-simplesamlphp:namespace}ssp:CustomBinding'),
+            [new Chunk($chunkOne->documentElement)],
+        );
+        $portTwo = new Port(
+            NCNameValue::fromString('PortTwo'),
+            QNameValue::fromString('{urn:x-simplesamlphp:namespace}ssp:CustomBinding'),
+            [new Chunk($chunkTwo->documentElement)],
+        );
 
-        $service = new Service('MyService', [$portOne, $portTwo], [new Chunk($child->documentElement)]);
-
+        $service = new Service(
+            NCNameValue::fromString('MyService'),
+            [$portOne, $portTwo],
+            [new Chunk($child->documentElement)],
+        );
+//var_dump(strval($service));
         $this->assertEquals(
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
             strval($service),

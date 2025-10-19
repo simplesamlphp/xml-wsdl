@@ -1,15 +1,15 @@
-<wsdl:operation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="SomeName">
-  <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">SomeChunk</ssp:Chunk>
+<wsdl:operation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ssp="urn:x-simplesamlphp:namespace" name="SomeName">
+  <ssp:Chunk>SomeChunk</ssp:Chunk>
   <wsdl:input name="CustomInputName">
-    <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">InputChunk</ssp:Chunk>
+    <ssp:Chunk>InputChunk</ssp:Chunk>
   </wsdl:input>
   <wsdl:output name="CustomOutputName">
-    <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">OutputChunk</ssp:Chunk>
+    <ssp:Chunk>OutputChunk</ssp:Chunk>
   </wsdl:output>
   <wsdl:fault name="CustomFaultOne">
-    <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">FaultOneChunk</ssp:Chunk>
+    <ssp:Chunk>FaultOneChunk</ssp:Chunk>
   </wsdl:fault>
   <wsdl:fault name="CustomFaultTwo">
-    <ssp:Chunk xmlns:ssp="urn:x-simplesamlphp:namespace">FaultTwoChunk</ssp:Chunk>
+    <ssp:Chunk>FaultTwoChunk</ssp:Chunk>
   </wsdl:fault>
 </wsdl:operation>

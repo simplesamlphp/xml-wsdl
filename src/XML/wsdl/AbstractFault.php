@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
-use SimpleSAML\WSDL\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
+use SimpleSAML\XMLSchema\Type\QNameValue;
 
 /**
  * Abstract class representing the tFault type.
@@ -18,18 +18,15 @@ abstract class AbstractFault extends AbstractExtensibleAttributesDocumented
     /**
      * Initialize a wsdl:tFault
      *
-     * @param string $name
-     * @param string $message
+     * @param \SimpleSAML\XMLSchema\Type\NCNameValue $name
+     * @param \SimpleSAML\XMLSchema\Type\QNameValue $message
      * @param \SimpleSAML\XML\Attribute[] $attributes
      */
     public function __construct(
-        protected string $name,
-        protected string $message,
+        protected NCNameValue $name,
+        protected QNameValue $message,
         array $attributes = [],
     ) {
-        Assert::validNCName($name, SchemaViolationException::class);
-        Assert::validQName($message, SchemaViolationException::class);
-
         parent::__construct($attributes);
     }
 
@@ -37,9 +34,9 @@ abstract class AbstractFault extends AbstractExtensibleAttributesDocumented
     /**
      * Collect the value of the name-property.
      *
-     * @return string
+     * @return \SimpleSAML\XMLSchema\Type\NCNameValue
      */
-    public function getName(): string
+    public function getName(): NCNameValue
     {
         return $this->name;
     }
@@ -48,9 +45,9 @@ abstract class AbstractFault extends AbstractExtensibleAttributesDocumented
     /**
      * Collect the value of the message-property.
      *
-     * @return string
+     * @return \SimpleSAML\XMLSchema\Type\QNameValue
      */
-    public function getMessage(): string
+    public function getMessage(): QNameValue
     {
         return $this->message;
     }
@@ -78,8 +75,8 @@ abstract class AbstractFault extends AbstractExtensibleAttributesDocumented
     {
         $e = parent::toXML($parent);
 
-        $e->setAttribute('name', $this->getName());
-        $e->setAttribute('message', $this->getMessage());
+        $e->setAttribute('name', $this->getName()->getValue());
+        $e->setAttribute('message', $this->getMessage()->getValue());
 
         return $e;
     }

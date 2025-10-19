@@ -16,6 +16,9 @@ use SimpleSAML\WSDL\XML\wsdl\Output;
 use SimpleSAML\XML\Attribute as XMLAttribute;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\SerializableElementTestTrait;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
+use SimpleSAML\XMLSchema\Type\QNameValue;
+use SimpleSAML\XMLSchema\Type\StringValue;
 
 use function dirname;
 use function strval;
@@ -56,12 +59,16 @@ final class OutputTest extends TestCase
      */
     public function testMarshalling(): void
     {
-        $attr1 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr1', 'value1');
-        $Output = new Output('ssp:CustomMessage', 'CustomName', [$attr1]);
+        $attr1 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr1', StringValue::fromString('value1'));
+        $output = new Output(
+            QNameValue::fromString('{urn:x-simplesamlphp:namespace}ssp:CustomMessage'),
+            NCNameValue::fromString('CustomName'),
+            [$attr1],
+        );
 
         $this->assertEquals(
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
-            strval($Output),
+            strval($output),
         );
     }
 }

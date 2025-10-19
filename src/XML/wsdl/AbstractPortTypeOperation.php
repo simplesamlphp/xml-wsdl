@@ -6,9 +6,9 @@ namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
 use SimpleSAML\WSDL\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
-
-use function explode;
+use SimpleSAML\XMLSchema\Exception\SchemaViolationException;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
+use SimpleSAML\XMLSchema\Type\NMTokensValue;
 
 /**
  * Abstract class representing the operation-element.
@@ -20,30 +20,21 @@ abstract class AbstractPortTypeOperation extends AbstractExtensibleDocumented
     /**
      * Initialize a wsdl:tOperation
      *
-     * @param string $name
-     * @param string|null $parameterOrder
-     * @param \SimpleSAML\WSDL\XML\wsdl\Input|null $input
-     * @param \SimpleSAML\WSDL\XML\wsdl\Output|null $output
+     * @param \SimpleSAML\XMLSchema\Type\NCNameValue $name
+     * @param \SimpleSAML\XMLSchema\Type\NMTokensValue|null $parameterOrder
+     * @param \SimpleSAML\WSDL\XML\wsdl\AbstractParam|null $input
+     * @param \SimpleSAML\WSDL\XML\wsdl\AbstractParam|null $output
      * @param \SimpleSAML\WSDL\XML\wsdl\Fault[] $fault
      * @param \SimpleSAML\XML\SerializableElementInterface[] $elements
      */
     public function __construct(
-        protected string $name,
-        protected ?string $parameterOrder = null,
+        protected NCNameValue $name,
+        protected ?NMTokensValue $parameterOrder = null,
         protected ?AbstractParam $input = null,
         protected ?AbstractParam $output = null,
         protected array $fault = [],
         array $elements = [],
     ) {
-        Assert::validNCName($name, SchemaViolationException::class);
-        if ($parameterOrder !== null) {
-            Assert::allRegex(
-                // TODO: figure out the right pattern to do this without the explode
-                explode(' ', $parameterOrder),
-                "/^[a-zA-Z0-9._\-:]*$/",
-                SchemaViolationException::class,
-            ); // xs:NMTOKENS
-        }
         Assert::allIsInstanceOf($fault, Fault::class, SchemaViolationException::class);
 
         parent::__construct($elements);
@@ -53,9 +44,9 @@ abstract class AbstractPortTypeOperation extends AbstractExtensibleDocumented
     /**
      * Collect the value of the name-property
      *
-     * @return string
+     * @return \SimpleSAML\XMLSchema\Type\NCNameValue
      */
-    public function getName(): string
+    public function getName(): NCNameValue
     {
         return $this->name;
     }
@@ -64,9 +55,9 @@ abstract class AbstractPortTypeOperation extends AbstractExtensibleDocumented
     /**
      * Collect the value of the parameterOrder-property
      *
-     * @return string|null
+     * @return \SimpleSAML\XMLSchema\Type\NMTokensValue|null
      */
-    public function getParameterOrder(): ?string
+    public function getParameterOrder(): ?NMTokensValue
     {
         return $this->parameterOrder;
     }
@@ -114,10 +105,10 @@ abstract class AbstractPortTypeOperation extends AbstractExtensibleDocumented
     public function toXML(?DOMElement $parent = null): DOMElement
     {
         $e = $this->instantiateParentElement($parent);
-        $e->setAttribute('name', $this->getName());
+        $e->setAttribute('name', $this->getName()->getValue());
 
         if ($this->getParameterOrder() !== null) {
-            $e->setAttribute('parameterOrder', $this->getParameterOrder());
+            $e->setAttribute('parameterOrder', $this->getParameterOrder()->getValue());
         }
 
         $this->getInput()?->toXML($e);

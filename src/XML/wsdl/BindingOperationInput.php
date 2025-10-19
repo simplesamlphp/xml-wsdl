@@ -6,7 +6,8 @@ namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
 use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Exception\InvalidDOMElementException;
+use SimpleSAML\XMLSchema\Exception\InvalidDOMElementException;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
 
 /**
  * Class representing the Input element.
@@ -25,7 +26,7 @@ final class BindingOperationInput extends AbstractBindingOperationMessage
      * @param \DOMElement $xml The XML element we should load.
      * @return static
      *
-     * @throws \SimpleSAML\XML\Exception\InvalidDOMElementException
+     * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong
      */
     public static function fromXML(DOMElement $xml): static
@@ -34,7 +35,7 @@ final class BindingOperationInput extends AbstractBindingOperationMessage
         Assert::same($xml->namespaceURI, static::NS, InvalidDOMElementException::class);
 
         return new static(
-            self::getOptionalAttribute($xml, 'name', null),
+            self::getOptionalAttribute($xml, 'name', NCNameValue::class, null),
             self::getChildElementsFromXML($xml),
         );
     }

@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace SimpleSAML\WSDL\XML\soap12;
 
 use DOMElement;
-use SimpleSAML\WSSecurity\Assert\Assert;
-use SimpleSAML\XML\Exception\InvalidDOMElementException;
-use SimpleSAML\XML\Exception\SchemaViolationException;
-
-use function explode;
+use SimpleSAML\WSDL\Assert\Assert;
+use SimpleSAML\WSDL\Type\UseChoiceValue;
+use SimpleSAML\XMLSchema\Exception\InvalidDOMElementException;
+use SimpleSAML\XMLSchema\Type\AnyURIValue;
+use SimpleSAML\XMLSchema\Type\NMTokensValue;
+use SimpleSAML\XMLSchema\Type\QNameValue;
 
 /**
  * Abstract class representing the tHeaderFault type.
@@ -20,6 +21,7 @@ abstract class AbstractHeaderFault extends AbstractSoapElement
 {
     use BodyAttributesTrait;
 
+
     /** @var string */
     public const LOCALNAME = 'headerfault';
 
@@ -27,27 +29,19 @@ abstract class AbstractHeaderFault extends AbstractSoapElement
     /**
      * Initialize a soap12:body
      *
-     * @param string $message
-     * @param string $parts
-     * @param string $use
-     * @param string|null $encodingStyle
-     * @param string|null $namespace
+     * @param \SimpleSAML\XMLSchema\Type\QNameValue $message
+     * @param \SimpleSAML\XMLSchema\Type\NMTokensValue $parts
+     * @param \SimpleSAML\WSDL\Type\UseChoiceValue $use
+     * @param \SimpleSAML\XMLSchema\Type\AnyURIValue|null $encodingStyle
+     * @param \SimpleSAML\XMLSchema\Type\AnyURIValue|null $namespace
      */
     final public function __construct(
-        protected string $message,
-        protected string $parts,
-        string $use,
-        ?string $encodingStyle = null,
-        ?string $namespace = null,
+        protected QNameValue $message,
+        protected NMTokensValue $parts,
+        UseChoiceValue $use,
+        ?AnyURIValue $encodingStyle = null,
+        ?AnyURIValue $namespace = null,
     ) {
-        Assert::validQName($message, SchemaViolationException::class);
-        Assert::allRegex(
-            // TODO: figure out the right pattern to do this without the explode
-            explode(' ', $parts),
-            "/^[a-zA-Z0-9._\-:]*$/",
-            SchemaViolationException::class,
-        ); // xs:NMTOKENS
-
         // Assertions are handled by the setters
         $this->setEncodingStyle($encodingStyle);
         $this->setUse($use);
@@ -58,9 +52,9 @@ abstract class AbstractHeaderFault extends AbstractSoapElement
     /**
      * Collect the value of the message-property.
      *
-     * @return string
+     * @return \SimpleSAML\XMLSchema\Type\QNameValue
      */
-    public function getMessage(): string
+    public function getMessage(): QNameValue
     {
         return $this->message;
     }
@@ -69,9 +63,9 @@ abstract class AbstractHeaderFault extends AbstractSoapElement
     /**
      * Collect the value of the parts-property.
      *
-     * @return string|null
+     * @return \SimpleSAML\XMLSchema\Type\NMTokensValue|null
      */
-    public function getParts(): ?string
+    public function getParts(): ?NMTokensValue
     {
         return $this->parts;
     }
@@ -83,7 +77,7 @@ abstract class AbstractHeaderFault extends AbstractSoapElement
      * @param \DOMElement $xml The XML element we should load.
      * @return static
      *
-     * @throws \SimpleSAML\XML\Exception\InvalidDOMElementException
+     * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong
      */
     public static function fromXML(DOMElement $xml): static
@@ -92,11 +86,11 @@ abstract class AbstractHeaderFault extends AbstractSoapElement
         Assert::same($xml->namespaceURI, static::NS, InvalidDOMElementException::class);
 
         return new static(
-            self::getAttribute($xml, 'message'),
-            self::getAttribute($xml, 'parts'),
-            self::getAttribute($xml, 'use'),
-            self::getOptionalAttribute($xml, 'encodingStyle'),
-            self::getOptionalAttribute($xml, 'namespace'),
+            self::getAttribute($xml, 'message', QNameValue::class),
+            self::getAttribute($xml, 'parts', NMTokensValue::class),
+            self::getAttribute($xml, 'use', UseChoiceValue::class),
+            self::getOptionalAttribute($xml, 'encodingStyle', AnyURIValue::class),
+            self::getOptionalAttribute($xml, 'namespace', AnyURIValue::class),
         );
     }
 
@@ -111,16 +105,16 @@ abstract class AbstractHeaderFault extends AbstractSoapElement
     {
         $e = $this->instantiateParentElement($parent);
 
-        $e->setAttribute('message', $this->getMessage());
-        $e->setAttribute('parts', $this->getParts());
-        $e->setAttribute('use', $this->getUse());
+        $e->setAttribute('message', $this->getMessage()->getValue());
+        $e->setAttribute('parts', $this->getParts()->getValue());
+        $e->setAttribute('use', $this->getUse()->getValue());
 
         if ($this->getEncodingStyle() !== null) {
-            $e->setAttribute('encodingStyle', $this->getEncodingStyle());
+            $e->setAttribute('encodingStyle', $this->getEncodingStyle()->getValue());
         }
 
         if ($this->getNamespace() !== null) {
-            $e->setAttribute('namespace', $this->getNamespace());
+            $e->setAttribute('namespace', $this->getNamespace()->getValue());
         }
 
         return $e;

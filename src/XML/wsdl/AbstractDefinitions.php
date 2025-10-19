@@ -6,7 +6,9 @@ namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
 use SimpleSAML\WSDL\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XMLSchema\Exception\SchemaViolationException;
+use SimpleSAML\XMLSchema\Type\AnyURIValue;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
 
 use function array_map;
 
@@ -20,8 +22,8 @@ abstract class AbstractDefinitions extends AbstractExtensibleDocumented
     /**
      * Initialize a wsdl:tDefinitions
      *
-     * @param string|null $targetNamespace
-     * @param string|null $name
+     * @param \SimpleSAML\XMLSchema\Type\AnyURIValue|null $targetNamespace
+     * @param \SimpleSAML\XMLSchema\Type\NCNameValue|null $name
      * @param \SimpleSAML\WSDL\XML\wsdl\Import[] $import
      * @param \SimpleSAML\WSDL\XML\wsdl\Types[] $types
      * @param \SimpleSAML\WSDL\XML\wsdl\Message[] $message
@@ -31,8 +33,8 @@ abstract class AbstractDefinitions extends AbstractExtensibleDocumented
      * @param \SimpleSAML\XML\SerializableElementInterface[] $elements
      */
     public function __construct(
-        protected ?string $targetNamespace = null,
-        protected ?string $name = null,
+        protected ?AnyURIValue $targetNamespace = null,
+        protected ?NCNameValue $name = null,
         protected array $import = [],
         protected array $types = [],
         protected array $message = [],
@@ -41,9 +43,6 @@ abstract class AbstractDefinitions extends AbstractExtensibleDocumented
         protected array $service = [],
         array $elements = [],
     ) {
-        Assert::validURI($targetNamespace, SchemaViolationException::class);
-        Assert::validNCName($name, SchemaViolationException::class);
-
         Assert::allIsInstanceOf($import, Import::class, SchemaViolationException::class);
         Assert::allIsInstanceOf($types, Types::class, SchemaViolationException::class);
         Assert::allIsInstanceOf($message, Message::class, SchemaViolationException::class);
@@ -118,9 +117,9 @@ abstract class AbstractDefinitions extends AbstractExtensibleDocumented
     /**
      * Collect the value of the name-property.
      *
-     * @return string|null
+     * @return \SimpleSAML\XMLSchema\Type\NCNameValue|null
      */
-    public function getName(): ?string
+    public function getName(): ?NCNameValue
     {
         return $this->name;
     }
@@ -129,9 +128,9 @@ abstract class AbstractDefinitions extends AbstractExtensibleDocumented
     /**
      * Collect the value of the targetNamespace-property.
      *
-     * @return string|null
+     * @return \SimpleSAML\XMLSchema\Type\AnyURIValue|null
      */
-    public function getTargetNamespace(): ?string
+    public function getTargetNamespace(): ?AnyURIValue
     {
         return $this->targetNamespace;
     }
@@ -233,11 +232,11 @@ abstract class AbstractDefinitions extends AbstractExtensibleDocumented
         $e = parent::toXML($parent);
 
         if ($this->getTargetNamespace() !== null) {
-            $e->setAttribute('targetNamespace', $this->getTargetNamespace());
+            $e->setAttribute('targetNamespace', $this->getTargetNamespace()->getValue());
         }
 
         if ($this->getName() !== null) {
-            $e->setAttribute('name', $this->getName());
+            $e->setAttribute('name', $this->getName()->getValue());
         }
 
         foreach ($this->getImport() as $import) {

@@ -7,11 +7,11 @@ namespace SimpleSAML\WSDL\XML\soap12;
 use DOMElement;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\WSDL\Constants as C;
+use SimpleSAML\WSDL\Type\RequiredValue;
+use SimpleSAML\WSDL\Type\StyleChoiceValue;
 use SimpleSAML\WSDL\XML\wsdl\AbstractExtensibilityElement;
-use SimpleSAML\XML\Exception\InvalidDOMElementException;
-use SimpleSAML\XML\Exception\SchemaViolationException;
-
-use function in_array;
+use SimpleSAML\XMLSchema\Exception\InvalidDOMElementException;
+use SimpleSAML\XMLSchema\Type\AnyURIValue;
 
 /**
  * Abstract class representing the tBinding type.
@@ -36,18 +36,15 @@ abstract class AbstractBinding extends AbstractExtensibilityElement
     /**
      * Initialize a soap12:binding
      *
-     * @param string|null $transport
-     * @param string|null $style
-     * @param bool|null $required
+     * @param \SimpleSAML\XMLSchema\Type\AnyURIValue|null $transport
+     * @param \SimpleSAML\WSDL\Type\StyleChoiceValue|null $style
+     * @param \SimpleSAML\WSDL\Type\RequiredValue|null $required
      */
     final public function __construct(
-        protected ?string $transport = null,
-        protected ?string $style = null,
-        ?bool $required = null,
+        protected ?AnyURIValue $transport = null,
+        protected ?StyleChoiceValue $style = null,
+        ?RequiredValue $required = null,
     ) {
-        Assert::nullOrValidURI($transport, SchemaViolationException::class);
-        Assert::nullOrOneOf($style, ['rpc', 'document'], SchemaViolationException::class);
-
         parent::__construct($required);
     }
 
@@ -55,9 +52,9 @@ abstract class AbstractBinding extends AbstractExtensibilityElement
     /**
      * Collect the value of the transport-property.
      *
-     * @return string|null
+     * @return \SimpleSAML\XMLSchema\Type\AnyURIValue|null
      */
-    public function getTransport(): ?string
+    public function getTransport(): ?AnyURIValue
     {
         return $this->transport;
     }
@@ -66,9 +63,9 @@ abstract class AbstractBinding extends AbstractExtensibilityElement
     /**
      * Collect the value of the style-property.
      *
-     * @return string|null
+     * @return \SimpleSAML\WSDL\Type\StyleChoiceValue|null
      */
-    public function getStyle(): ?string
+    public function getStyle(): ?StyleChoiceValue
     {
         return $this->style;
     }
@@ -93,7 +90,7 @@ abstract class AbstractBinding extends AbstractExtensibilityElement
      * @param \DOMElement $xml The XML element we should load.
      * @return static
      *
-     * @throws \SimpleSAML\XML\Exception\InvalidDOMElementException
+     * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong
      */
     public static function fromXML(DOMElement $xml): static
@@ -103,14 +100,12 @@ abstract class AbstractBinding extends AbstractExtensibilityElement
 
         $required = null;
         if ($xml->hasAttributeNS(C::NS_WSDL, 'required')) {
-            $required = $xml->getAttributeNS(C::NS_WSDL, 'required');
-            Assert::oneOf($required, ['0', '1', 'false', 'true'], SchemaViolationException::class);
-            $required = in_array($required, ['1', 'true'], true);
+            $required = RequiredValue::fromString($xml->getAttributeNS(C::NS_WSDL, 'required'));
         }
 
         return new static(
-            self::getOptionalAttribute($xml, 'transport'),
-            self::getOptionalAttribute($xml, 'style'),
+            self::getOptionalAttribute($xml, 'transport', AnyURIValue::class),
+            self::getOptionalAttribute($xml, 'style', StyleChoiceValue::class),
             $required,
         );
     }
@@ -127,11 +122,11 @@ abstract class AbstractBinding extends AbstractExtensibilityElement
         $e = parent::toXML($parent);
 
         if ($this->getTransport() !== null) {
-            $e->setAttribute('transport', $this->getTransport());
+            $e->setAttribute('transport', $this->getTransport()->getValue());
         }
 
         if ($this->getStyle() !== null) {
-            $e->setAttribute('style', $this->getStyle());
+            $e->setAttribute('style', $this->getStyle()->getValue());
         }
 
         return $e;

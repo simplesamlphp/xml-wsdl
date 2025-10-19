@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace SimpleSAML\WSDL\XML\soap12;
 
 use DOMElement;
-use SimpleSAML\Assert\Assert;
 use SimpleSAML\WSDL\Constants as C;
+use SimpleSAML\WSDL\Type\RequiredValue;
+use SimpleSAML\WSDL\Type\UseChoiceValue;
 use SimpleSAML\WSDL\XML\wsdl\AbstractExtensibilityElement;
-use SimpleSAML\XML\Exception\SchemaViolationException;
-
-use function explode;
+use SimpleSAML\XMLSchema\Type\AnyURIValue;
+use SimpleSAML\XMLSchema\Type\NMTokensValue;
 
 /**
  * Abstract class representing the tBody type.
@@ -20,6 +20,7 @@ use function explode;
 abstract class AbstractBody extends AbstractExtensibilityElement
 {
     use BodyAttributesTrait;
+
 
     /** @var string */
     public const NS = C::NS_WSDL_SOAP_12;
@@ -37,28 +38,19 @@ abstract class AbstractBody extends AbstractExtensibilityElement
     /**
      * Initialize a soap12:body
      *
-     * @param string|null $parts
-     * @param string|null $encodingStyle
-     * @param string|null $use
-     * @param string|null $namespace
-     * @param bool|null $required
+     * @param \SimpleSAML\XMLSchema\Type\NMTokensValue|null $parts
+     * @param \SimpleSAML\XMLSchema\Type\AnyURIValue|null $encodingStyle
+     * @param \SimpleSAML\WSDL\Type\UseChoiceValue|null $use
+     * @param \SimpleSAML\XMLSchema\Type\AnyURIValue|null $namespace
+     * @param \SimpleSAML\WSDL\Type\RequiredValue|null $required
      */
     public function __construct(
-        protected ?string $parts = null,
-        ?string $encodingStyle = null,
-        ?string $use = null,
-        ?string $namespace = null,
-        ?bool $required = null,
+        protected ?NMTokensValue $parts = null,
+        ?AnyURIValue $encodingStyle = null,
+        ?UseChoiceValue $use = null,
+        ?AnyURIValue $namespace = null,
+        ?RequiredValue $required = null,
     ) {
-        if ($parts !== null) {
-            Assert::allRegex(
-                // TODO: figure out the right pattern to do this without the explode
-                explode(' ', $parts),
-                "/^[a-zA-Z0-9._\-:]*$/",
-                SchemaViolationException::class,
-            ); // xs:NMTOKENS
-        }
-
         // Assertions are handled by the setters
         $this->setEncodingStyle($encodingStyle);
         $this->setUse($use);
@@ -71,9 +63,9 @@ abstract class AbstractBody extends AbstractExtensibilityElement
     /**
      * Collect the value of the parts-property.
      *
-     * @return string|null
+     * @return \SimpleSAML\XMLSchema\Type\NMTokensValue|null
      */
-    public function getParts(): ?string
+    public function getParts(): ?NMTokensValue
     {
         return $this->parts;
     }
@@ -105,19 +97,19 @@ abstract class AbstractBody extends AbstractExtensibilityElement
         $e = parent::toXML($parent);
 
         if ($this->getParts() !== null) {
-            $e->setAttribute('parts', $this->getParts());
+            $e->setAttribute('parts', $this->getParts()->getValue());
         }
 
         if ($this->getEncodingStyle() !== null) {
-            $e->setAttribute('encodingStyle', $this->getEncodingStyle());
+            $e->setAttribute('encodingStyle', $this->getEncodingStyle()->getValue());
         }
 
         if ($this->getUse() !== null) {
-            $e->setAttribute('use', $this->getUse());
+            $e->setAttribute('use', $this->getUse()->getValue());
         }
 
         if ($this->getNamespace() !== null) {
-            $e->setAttribute('namespace', $this->getNamespace());
+            $e->setAttribute('namespace', $this->getNamespace()->getValue());
         }
 
         return $e;

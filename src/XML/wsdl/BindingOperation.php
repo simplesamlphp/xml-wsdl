@@ -6,7 +6,8 @@ namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
 use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Exception\InvalidDOMElementException;
+use SimpleSAML\XMLSchema\Exception\InvalidDOMElementException;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
 
 use function array_pop;
 
@@ -27,7 +28,7 @@ final class BindingOperation extends AbstractBindingOperation
      * @param \DOMElement $xml The XML element we should load.
      * @return static
      *
-     * @throws \SimpleSAML\XML\Exception\InvalidDOMElementException
+     * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong
      */
     public static function fromXML(DOMElement $xml): static
@@ -40,7 +41,7 @@ final class BindingOperation extends AbstractBindingOperation
         $faults = BindingOperationFault::getChildrenOfClass($xml);
 
         return new static(
-            self::getAttribute($xml, 'name'),
+            self::getAttribute($xml, 'name', NCNameValue::class),
             array_pop($input),
             array_pop($output),
             $faults,

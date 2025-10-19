@@ -7,11 +7,10 @@ namespace SimpleSAML\WSDL\XML\soap12;
 use DOMElement;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\WSDL\Constants as C;
+use SimpleSAML\WSDL\Type\RequiredValue;
 use SimpleSAML\WSDL\XML\wsdl\AbstractExtensibilityElement;
-use SimpleSAML\XML\Exception\InvalidDOMElementException;
-use SimpleSAML\XML\Exception\SchemaViolationException;
-
-use function in_array;
+use SimpleSAML\XMLSchema\Exception\InvalidDOMElementException;
+use SimpleSAML\XMLSchema\Type\AnyURIValue;
 
 /**
  * Abstract class representing the tAddress type.
@@ -36,15 +35,13 @@ abstract class AbstractAddress extends AbstractExtensibilityElement
     /**
      * Initialize a soap12:address
      *
-     * @param string $location
-     * @param bool|null $required
+     * @param \SimpleSAML\XMLSchema\Type\AnyURIValue $location
+     * @param \SimpleSAML\WSDL\Type\RequiredValue|null $required
      */
     final public function __construct(
-        protected string $location,
-        ?bool $required = null,
+        protected AnyURIValue $location,
+        ?RequiredValue $required = null,
     ) {
-        Assert::validURI($location, SchemaViolationException::class);
-
         parent::__construct($required);
     }
 
@@ -52,9 +49,9 @@ abstract class AbstractAddress extends AbstractExtensibilityElement
     /**
      * Collect the value of the location-property.
      *
-     * @return string
+     * @return \SimpleSAML\XMLSchema\Type\AnyURIValue
      */
-    public function getLocation(): string
+    public function getLocation(): AnyURIValue
     {
         return $this->location;
     }
@@ -66,7 +63,7 @@ abstract class AbstractAddress extends AbstractExtensibilityElement
      * @param \DOMElement $xml The XML element we should load.
      * @return static
      *
-     * @throws \SimpleSAML\XML\Exception\InvalidDOMElementException
+     * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong
      */
     public static function fromXML(DOMElement $xml): static
@@ -76,13 +73,11 @@ abstract class AbstractAddress extends AbstractExtensibilityElement
 
         $required = null;
         if ($xml->hasAttributeNS(C::NS_WSDL, 'required')) {
-            $required = $xml->getAttributeNS(C::NS_WSDL, 'required');
-            Assert::oneOf($required, ['0', '1', 'false', 'true'], SchemaViolationException::class);
-            $required = in_array($required, ['1', 'true'], true);
+            $required = RequiredValue::fromString($xml->getAttributeNS(C::NS_WSDL, 'required'));
         }
 
         return new static(
-            self::getOptionalAttribute($xml, 'location'),
+            self::getAttribute($xml, 'location', AnyURIValue::class),
             $required,
         );
     }
@@ -97,10 +92,7 @@ abstract class AbstractAddress extends AbstractExtensibilityElement
     public function toXML(?DOMElement $parent = null): DOMElement
     {
         $e = parent::toXML($parent);
-
-        if ($this->getLocation() !== null) {
-            $e->setAttribute('location', $this->getLocation());
-        }
+        $e->setAttribute('location', $this->getLocation()->getValue());
 
         return $e;
     }

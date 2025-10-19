@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
-use SimpleSAML\WSDL\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
+use SimpleSAML\XMLSchema\Type\QNameValue;
 
 /**
  * Abstract class representing the tPort type.
@@ -18,18 +18,15 @@ abstract class AbstractPort extends AbstractExtensibleDocumented
     /**
      * Initialize a wsdl:tPort
      *
-     * @param string $name
-     * @param string $binding
+     * @param \SimpleSAML\XMLSchema\Type\NCNameValue $name
+     * @param \SimpleSAML\XMLSchema\Type\QNameValue $binding
      * @param \SimpleSAML\XML\SerializableElementInterface[] $elements
      */
     public function __construct(
-        protected string $name,
-        protected string $binding,
+        protected NCNameValue $name,
+        protected QNameValue $binding,
         array $elements = [],
     ) {
-        Assert::validNCName($name, SchemaViolationException::class);
-        Assert::validQName($binding, SchemaViolationException::class);
-
         parent::__construct($elements);
     }
 
@@ -37,9 +34,9 @@ abstract class AbstractPort extends AbstractExtensibleDocumented
     /**
      * Collect the value of the name-property.
      *
-     * @return string
+     * @return \SimpleSAML\XMLSchema\Type\NCNameValue
      */
-    public function getName(): string
+    public function getName(): NCNameValue
     {
         return $this->name;
     }
@@ -48,9 +45,9 @@ abstract class AbstractPort extends AbstractExtensibleDocumented
     /**
      * Collect the value of the binding-property.
      *
-     * @return string
+     * @return \SimpleSAML\XMLSchema\Type\QNameValue
      */
-    public function getBinding(): string
+    public function getBinding(): QNameValue
     {
         return $this->binding;
     }
@@ -78,8 +75,8 @@ abstract class AbstractPort extends AbstractExtensibleDocumented
     {
         $e = parent::toXML($parent);
 
-        $e->setAttribute('name', $this->getName());
-        $e->setAttribute('binding', $this->getBinding());
+        $e->setAttribute('name', $this->getName()->getValue());
+        $e->setAttribute('binding', $this->getBinding()->getValue());
 
         return $e;
     }

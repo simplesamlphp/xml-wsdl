@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace SimpleSAML\WSDL\XML\soap12;
 
-use SimpleSAML\XML\{SchemaValidatableElementInterface, SchemaValidatableElementTrait};
+use SimpleSAML\XML\SchemaValidatableElementInterface;
+use SimpleSAML\XML\SchemaValidatableElementTrait;
 
 /**
  * Class representing the HeaderFault element.

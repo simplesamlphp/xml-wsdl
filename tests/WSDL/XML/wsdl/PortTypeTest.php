@@ -20,6 +20,11 @@ use SimpleSAML\WSDL\XML\wsdl\PortTypeOperation as Operation;
 use SimpleSAML\XML\Attribute as XMLAttribute;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\SerializableElementTestTrait;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
+use SimpleSAML\XMLSchema\Type\NMTokensValue;
+use SimpleSAML\XMLSchema\Type\QNameValue;
+use SimpleSAML\XMLSchema\Type\StringValue;
+use SimpleSAML\XMLSchema\Type\UnsignedShortValue;
 
 use function dirname;
 use function strval;
@@ -60,19 +65,43 @@ final class PortTypeTest extends TestCase
      */
     public function testMarshalling(): void
     {
-        $port = new XMLAttribute(C::NAMESPACE, 'ssp', 'port', '1234');
-        $attr1 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr1', 'value1');
-        $attr2 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr2', 'value2');
-        $attr3 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr3', 'value3');
+        $port = new XMLAttribute(C::NAMESPACE, 'ssp', 'port', UnsignedShortValue::fromInteger(1234));
+        $attr1 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr1', StringValue::fromString('value1'));
+        $attr2 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr2', StringValue::fromString('value2'));
+        $attr3 = new XMLAttribute(C::NAMESPACE, 'ssp', 'attr3', StringValue::fromString('value3'));
 
-        $input = new Input('ssp:CustomInputMessage', 'CustomInputName', [$attr1]);
-        $output = new Output('ssp:CustomOutputMessage', 'CustomOutputName', [$attr2]);
-        $fault = new Fault('CustomFaultName', 'ssp:CustomFaultMessage', [$attr3]);
+        $input = new Input(
+            QNameValue::fromString('{urn:x-simplesamlphp:namespace}ssp:CustomInputMessage'),
+            NCNameValue::fromString('CustomInputName'),
+            [$attr1],
+        );
+        $output = new Output(
+            QNameValue::fromString('{urn:x-simplesamlphp:namespace}ssp:CustomOutputMessage'),
+            NCNameValue::fromString('CustomOutputName'),
+            [$attr2],
+        );
+        $fault = new Fault(
+            NCNameValue::fromString('CustomFaultName'),
+            QNameValue::fromString('{urn:x-simplesamlphp:namespace}ssp:CustomFaultMessage'),
+            [$attr3],
+        );
 
-        $inputOperation = new Operation('Input', '0836217462 0836217463', $input, $output, [$fault]);
-        $outputOperation = new Operation('Output', '0836217462 0836217463', $output, $input, [$fault]);
+        $inputOperation = new Operation(
+            NCNameValue::fromString('Input'),
+            NMTokensValue::fromString('0836217462 0836217463'),
+            $input,
+            $output,
+            [$fault],
+        );
+        $outputOperation = new Operation(
+            NCNameValue::fromString('Output'),
+            NMTokensValue::fromString('0836217462 0836217463'),
+            $output,
+            $input,
+            [$fault],
+        );
 
-        $portType = new PortType('MyPort', [$inputOperation, $outputOperation], [$port]);
+        $portType = new PortType(NCNameValue::fromString('MyPort'), [$inputOperation, $outputOperation], [$port]);
 
         $this->assertEquals(
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),

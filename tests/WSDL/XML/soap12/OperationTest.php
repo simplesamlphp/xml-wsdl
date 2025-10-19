@@ -8,6 +8,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use SimpleSAML\WSDL\Constants as C;
+use SimpleSAML\WSDL\Enumeration\StyleChoiceEnum;
+use SimpleSAML\WSDL\Type\RequiredValue;
+use SimpleSAML\WSDL\Type\StyleChoiceValue;
 use SimpleSAML\WSDL\XML\soap12\AbstractOperation;
 use SimpleSAML\WSDL\XML\soap12\Operation;
 use SimpleSAML\WSDL\XML\wsdl\AbstractExtensibilityElement;
@@ -15,6 +18,8 @@ use SimpleSAML\WSDL\XML\wsdl\AbstractWsdlElement;
 use SimpleSAML\XML\DOMDocumentFactory;
 use SimpleSAML\XML\TestUtils\SchemaValidationTestTrait;
 use SimpleSAML\XML\TestUtils\SerializableElementTestTrait;
+use SimpleSAML\XMLSchema\Type\AnyURIValue;
+use SimpleSAML\XMLSchema\Type\BooleanValue;
 
 use function dirname;
 use function strval;
@@ -55,7 +60,12 @@ final class OperationTest extends TestCase
      */
     public function testMarshalling(): void
     {
-        $operation = new Operation('https://example.org/action', true, 'rpc', true);
+        $operation = new Operation(
+            AnyURIValue::fromString('https://example.org/action'),
+            BooleanValue::fromBoolean(true),
+            StyleChoiceValue::fromEnum(StyleChoiceEnum::Rpc),
+            RequiredValue::fromBoolean(true),
+        );
 
         $this->assertEquals(
             self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),

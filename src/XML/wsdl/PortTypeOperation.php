@@ -6,8 +6,10 @@ namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
 use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Exception\InvalidDOMElementException;
-use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XMLSchema\Exception\InvalidDOMElementException;
+use SimpleSAML\XMLSchema\Exception\SchemaViolationException;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
+use SimpleSAML\XMLSchema\Type\NMTokensValue;
 
 /**
  * Class representing the Operation element.
@@ -26,7 +28,7 @@ final class PortTypeOperation extends AbstractPortTypeOperation
      * @param \DOMElement $xml The XML element we should load.
      * @return static
      *
-     * @throws \SimpleSAML\XML\Exception\InvalidDOMElementException
+     * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong
      */
     public static function fromXML(DOMElement $xml): static
@@ -69,8 +71,8 @@ final class PortTypeOperation extends AbstractPortTypeOperation
         }
 
         return new static(
-            self::getAttribute($xml, 'name'),
-            self::getOptionalAttribute($xml, 'parameterOrder'),
+            self::getAttribute($xml, 'name', NCNameValue::class),
+            self::getOptionalAttribute($xml, 'parameterOrder', NMTokensValue::class),
             $input,
             $output,
             Fault::getChildrenOfClass($xml),

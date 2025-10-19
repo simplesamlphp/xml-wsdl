@@ -6,7 +6,9 @@ namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
 use SimpleSAML\WSDL\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XMLSchema\Exception\SchemaViolationException;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
+use SimpleSAML\XMLSchema\Type\QNameValue;
 
 /**
  * Abstract class representing the tBinding type.
@@ -18,19 +20,17 @@ abstract class AbstractBinding extends AbstractExtensibleDocumented
     /**
      * Initialize a wsdl:tBinding
      *
-     * @param string $name
-     * @param string $type
+     * @param \SimpleSAML\XMLSchema\Type\NCNameValue $name
+     * @param \SimpleSAML\XMLSchema\Type\QNameValue $type
      * @param \SimpleSAML\WSDL\XML\wsdl\BindingOperation[] $operation
      * @param \SimpleSAML\XML\SerializableElementInterface[] $elements
      */
     public function __construct(
-        protected string $name,
-        protected string $type,
+        protected NCNameValue $name,
+        protected QNameValue $type,
         protected array $operation = [],
         array $elements = [],
     ) {
-        Assert::validNCName($name, SchemaViolationException::class);
-        Assert::validQName($type, SchemaViolationException::class);
         Assert::allIsInstanceOf($operation, BindingOperation::class, SchemaViolationException::class);
 
         parent::__construct($elements);
@@ -40,9 +40,9 @@ abstract class AbstractBinding extends AbstractExtensibleDocumented
     /**
      * Collect the value of the name-property.
      *
-     * @return string
+     * @return \SimpleSAML\XMLSchema\Type\NCNameValue
      */
-    public function getName(): string
+    public function getName(): NCNameValue
     {
         return $this->name;
     }
@@ -51,9 +51,9 @@ abstract class AbstractBinding extends AbstractExtensibleDocumented
     /**
      * Collect the value of the type-property.
      *
-     * @return string
+     * @return \SimpleSAML\XMLSchema\Type\QNameValue
      */
-    public function getType(): string
+    public function getType(): QNameValue
     {
         return $this->type;
     }
@@ -92,8 +92,8 @@ abstract class AbstractBinding extends AbstractExtensibleDocumented
     {
         $e = parent::toXML($parent);
 
-        $e->setAttribute('name', $this->getName());
-        $e->setAttribute('type', $this->getType());
+        $e->setAttribute('name', $this->getName()->getValue());
+        $e->setAttribute('type', $this->getType()->getValue());
 
         foreach ($this->getOperation() as $operation) {
             $operation->toXML($e);

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace SimpleSAML\WSDL\XML\wsdl;
 
 use DOMElement;
-use SimpleSAML\WSDL\Assert\Assert;
-use SimpleSAML\XML\Exception\SchemaViolationException;
+use SimpleSAML\XMLSchema\Type\NCNameValue;
+use SimpleSAML\XMLSchema\Type\QNameValue;
 
 /**
  * Abstract class representing the tParam type.
@@ -18,18 +18,15 @@ abstract class AbstractParam extends AbstractExtensibleAttributesDocumented
     /**
      * Initialize a wsdl:tParam
      *
-     * @param string $message
-     * @param string|null $name
+     * @param \SimpleSAML\XMLSchema\Type\QNameValue $message
+     * @param \SimpleSAML\XMLSchema\Type\NCNameValue|null $name
      * @param \SimpleSAML\XML\Attribute[] $attributes
      */
     public function __construct(
-        protected string $message,
-        protected ?string $name = null,
+        protected QNameValue $message,
+        protected ?NCNameValue $name = null,
         array $attributes = [],
     ) {
-        Assert::validQName($message, SchemaViolationException::class);
-        Assert::nullOrValidNCName($name, SchemaViolationException::class);
-
         parent::__construct($attributes);
     }
 
@@ -37,9 +34,9 @@ abstract class AbstractParam extends AbstractExtensibleAttributesDocumented
     /**
      * Collect the value of the name-property.
      *
-     * @return string|null
+     * @return \SimpleSAML\XMLSchema\Type\NCNameValue|null
      */
-    public function getName(): ?string
+    public function getName(): ?NCNameValue
     {
         return $this->name;
     }
@@ -48,9 +45,9 @@ abstract class AbstractParam extends AbstractExtensibleAttributesDocumented
     /**
      * Collect the value of the message-property.
      *
-     * @return string
+     * @return \SimpleSAML\XMLSchema\Type\QNameValue
      */
-    public function getMessage(): string
+    public function getMessage(): QNameValue
     {
         return $this->message;
     }
@@ -79,10 +76,10 @@ abstract class AbstractParam extends AbstractExtensibleAttributesDocumented
         $e = parent::toXML($parent);
 
         if ($this->getName() !== null) {
-            $e->setAttribute('name', $this->getName());
+            $e->setAttribute('name', $this->getName()->getValue());
         }
 
-        $e->setAttribute('message', $this->getMessage());
+        $e->setAttribute('message', $this->getMessage()->getValue());
 
         return $e;
     }

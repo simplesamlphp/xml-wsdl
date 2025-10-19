@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 use SimpleSAML\WSDL\Enumeration\UseChoiceEnum;
 use SimpleSAML\WSDL\Type\UseChoiceValue;
 use SimpleSAML\WSDL\XML\soap12\AbstractHeaderFault;
-use SimpleSAML\WSDL\XML\soap12\BodyAttributesTrait;
 use SimpleSAML\WSDL\XML\soap12\HeaderFault;
 use SimpleSAML\WSDL\XML\wsdl\AbstractExtensibilityElement;
 use SimpleSAML\WSDL\XML\wsdl\AbstractWsdlElement;
@@ -31,7 +30,6 @@ use function strval;
  */
 #[Group('wsdl')]
 #[CoversClass(HeaderFault::class)]
-#[CoversClass(BodyAttributesTrait::class)]
 #[CoversClass(AbstractHeaderFault::class)]
 #[CoversClass(AbstractExtensibilityElement::class)]
 #[CoversClass(AbstractWsdlElement::class)]

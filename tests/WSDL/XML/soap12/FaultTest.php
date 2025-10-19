@@ -12,7 +12,6 @@ use SimpleSAML\WSDL\Type\RequiredValue;
 use SimpleSAML\WSDL\Type\UseChoiceValue;
 use SimpleSAML\WSDL\XML\soap12\AbstractBody;
 use SimpleSAML\WSDL\XML\soap12\AbstractFault;
-use SimpleSAML\WSDL\XML\soap12\BodyAttributesTrait;
 use SimpleSAML\WSDL\XML\soap12\Fault;
 use SimpleSAML\WSDL\XML\wsdl\AbstractExtensibilityElement;
 use SimpleSAML\WSDL\XML\wsdl\AbstractWsdlElement;
@@ -32,7 +31,6 @@ use function strval;
 #[Group('wsdl')]
 #[CoversClass(Fault::class)]
 #[CoversClass(AbstractFault::class)]
-#[CoversClass(BodyAttributesTrait::class)]
 #[CoversClass(AbstractBody::class)]
 #[CoversClass(AbstractExtensibilityElement::class)]
 #[CoversClass(AbstractWsdlElement::class)]

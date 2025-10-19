@@ -11,7 +11,6 @@ use SimpleSAML\WSDL\Enumeration\UseChoiceEnum;
 use SimpleSAML\WSDL\Type\RequiredValue;
 use SimpleSAML\WSDL\Type\UseChoiceValue;
 use SimpleSAML\WSDL\XML\soap12\AbstractHeader;
-use SimpleSAML\WSDL\XML\soap12\BodyAttributesTrait;
 use SimpleSAML\WSDL\XML\soap12\Header;
 use SimpleSAML\WSDL\XML\soap12\HeaderFault;
 use SimpleSAML\WSDL\XML\wsdl\AbstractExtensibilityElement;
@@ -33,7 +32,6 @@ use function strval;
  */
 #[Group('wsdl')]
 #[CoversClass(Header::class)]
-#[CoversClass(BodyAttributesTrait::class)]
 #[CoversClass(AbstractHeader::class)]
 #[CoversClass(AbstractExtensibilityElement::class)]
 #[CoversClass(AbstractWsdlElement::class)]

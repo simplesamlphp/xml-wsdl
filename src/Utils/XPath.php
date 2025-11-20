@@ -30,8 +30,8 @@ class XPath extends XPathUtils
         $xp = parent::getXPath($node, $autoregister);
 
         $xp->registerNamespace('wsdl', C::NS_WSDL);
-        $xp->registerNamespace('wsdl_soap11', C::NS_WSDL_SOAP11);
-        $xp->registerNamespace('wsdl_soap12', C::NS_WSDL_SOAP12);
+        $xp->registerNamespace('wsdl_soap11', C::NS_WSDL_SOAP_11);
+        $xp->registerNamespace('wsdl_soap12', C::NS_WSDL_SOAP_12);
 
         return $xp;
     }

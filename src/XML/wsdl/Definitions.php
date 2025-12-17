@@ -22,21 +22,18 @@ final class Definitions extends AbstractDefinitions implements SchemaValidatable
     use SchemaValidatableElementTrait;
 
 
-    /** @var string */
-    final public const LOCALNAME = 'definitions';
+    final public const string LOCALNAME = 'definitions';
 
     /**
      * This element doesn't allow arbitrary namespace-declarations and therefore cannot be normalized
-     * @var bool
      */
-    final public const NORMALIZATION = false;
+    final public const bool NORMALIZATION = false;
 
 
     /**
      * Initialize a Definitions element.
      *
      * @param \DOMElement $xml The XML element we should load.
-     * @return static
      *
      * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong

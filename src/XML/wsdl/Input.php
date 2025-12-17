@@ -17,15 +17,13 @@ use SimpleSAML\XMLSchema\Type\QNameValue;
  */
 final class Input extends AbstractParam
 {
-    /** @var string */
-    final public const LOCALNAME = 'input';
+    final public const string LOCALNAME = 'input';
 
 
     /**
      * Initialize a input-element.
      *
      * @param \DOMElement $xml The XML element we should load.
-     * @return static
      *
      * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong

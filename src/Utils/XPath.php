@@ -12,7 +12,7 @@ use SimpleSAML\XPath\XPath as XPathUtils;
 /**
  * Compilation of utilities for XPath.
  *
- * @package simplesamlphp/xml-security
+ * @package simplesamlphp/xml-wsdl
  */
 class XPath extends XPathUtils
 {

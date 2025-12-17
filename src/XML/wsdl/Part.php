@@ -17,15 +17,13 @@ use SimpleSAML\XMLSchema\Type\QNameValue;
  */
 final class Part extends AbstractPart
 {
-    /** @var string */
-    final public const LOCALNAME = 'part';
+    final public const string LOCALNAME = 'part';
 
 
     /**
      * Initialize a Part element.
      *
      * @param \DOMElement $xml The XML element we should load.
-     * @return static
      *
      * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong

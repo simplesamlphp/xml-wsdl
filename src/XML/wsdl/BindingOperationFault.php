@@ -16,15 +16,13 @@ use SimpleSAML\XMLSchema\Type\NCNameValue;
  */
 final class BindingOperationFault extends AbstractBindingOperationFault
 {
-    /** @var string */
-    final public const LOCALNAME = 'fault';
+    final public const string LOCALNAME = 'fault';
 
 
     /**
      * Initialize a Fault element.
      *
      * @param \DOMElement $xml The XML element we should load.
-     * @return static
      *
      * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong

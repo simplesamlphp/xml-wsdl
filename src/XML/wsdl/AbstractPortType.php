@@ -58,8 +58,6 @@ abstract class AbstractPortType extends AbstractExtensibleAttributesDocumented
 
     /**
      * Test if an object, at the state it's in, would produce an empty XML-element
-     *
-     * @return bool
      */
     public function isEmptyElement(): bool
     {

@@ -26,17 +26,13 @@ abstract class AbstractHeader extends AbstractExtensibilityElement
     use BodyAttributesTrait;
 
 
-    /** @var string */
-    public const NS = C::NS_WSDL_SOAP_12;
+    public const string NS = C::NS_WSDL_SOAP_12;
 
-    /** @var string */
-    public const NS_PREFIX = 'soap12';
+    public const string NS_PREFIX = 'soap12';
 
-    /** @var string */
-    public const LOCALNAME = 'header';
+    public const string LOCALNAME = 'header';
 
-    /** @var string */
-    public const SCHEMA = AbstractSoapElement::SCHEMA;
+    public const string SCHEMA = AbstractSoapElement::SCHEMA;
 
 
     /**
@@ -107,7 +103,6 @@ abstract class AbstractHeader extends AbstractExtensibilityElement
      * Initialize a Header element.
      *
      * @param \DOMElement $xml The XML element we should load.
-     * @return static
      *
      * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong

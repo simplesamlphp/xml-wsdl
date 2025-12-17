@@ -11,5 +11,5 @@ namespace SimpleSAML\Test\WSDL;
  */
 class Constants extends \SimpleSAML\WSDL\Constants
 {
-    public const NAMESPACE = 'urn:x-simplesamlphp:namespace';
+    public const string NAMESPACE = 'urn:x-simplesamlphp:namespace';
 }

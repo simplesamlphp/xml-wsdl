@@ -16,15 +16,13 @@ use SimpleSAML\XMLSchema\Type\NCNameValue;
  */
 final class PortType extends AbstractPortType
 {
-    /** @var string */
-    final public const LOCALNAME = 'portType';
+    final public const string LOCALNAME = 'portType';
 
 
     /**
      * Initialize a PortType element.
      *
      * @param \DOMElement $xml The XML element we should load.
-     * @return static
      *
      * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong

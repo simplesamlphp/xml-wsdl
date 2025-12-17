@@ -18,15 +18,13 @@ use SimpleSAML\XMLSchema\Type\NMTokensValue;
  */
 final class PortTypeOperation extends AbstractPortTypeOperation
 {
-    /** @var string */
-    final public const LOCALNAME = 'operation';
+    final public const string LOCALNAME = 'operation';
 
 
     /**
      * Initialize a Operation element.
      *
      * @param \DOMElement $xml The XML element we should load.
-     * @return static
      *
      * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong

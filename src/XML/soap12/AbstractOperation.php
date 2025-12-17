@@ -21,17 +21,13 @@ use SimpleSAML\XMLSchema\Type\BooleanValue;
  */
 abstract class AbstractOperation extends AbstractExtensibilityElement
 {
-    /** @var string */
-    public const NS = C::NS_WSDL_SOAP_12;
+    public const string NS = C::NS_WSDL_SOAP_12;
 
-    /** @var string */
-    public const NS_PREFIX = 'soap12';
+    public const string NS_PREFIX = 'soap12';
 
-    /** @var string */
-    public const LOCALNAME = 'operation';
+    public const string LOCALNAME = 'operation';
 
-    /** @var string */
-    public const SCHEMA = AbstractSoapElement::SCHEMA;
+    public const string SCHEMA = AbstractSoapElement::SCHEMA;
 
 
     /**
@@ -87,8 +83,6 @@ abstract class AbstractOperation extends AbstractExtensibilityElement
 
     /**
      * Test if an object, at the state it's in, would produce an empty XML-element
-     *
-     * @return bool
      */
     public function isEmptyElement(): bool
     {
@@ -103,7 +97,6 @@ abstract class AbstractOperation extends AbstractExtensibilityElement
      * Initialize an Operation element.
      *
      * @param \DOMElement $xml The XML element we should load.
-     * @return static
      *
      * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong

@@ -17,15 +17,13 @@ use SimpleSAML\XMLSchema\Type\QNameValue;
  */
 final class Binding extends AbstractBinding
 {
-    /** @var string */
-    final public const LOCALNAME = 'binding';
+    final public const string LOCALNAME = 'binding';
 
 
     /**
      * Initialize a Binding element.
      *
      * @param \DOMElement $xml The XML element we should load.
-     * @return static
      *
      * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong

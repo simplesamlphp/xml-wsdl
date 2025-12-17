@@ -10,8 +10,6 @@ namespace SimpleSAML\WSDL\Assert;
 trait RequiredTrait
 {
     /**
-     * @param string $value
-     * @param string $message
      */
     protected static function validRequired(string $value, string $message = ''): void
     {

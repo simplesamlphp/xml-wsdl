@@ -19,7 +19,7 @@ abstract class AbstractExtensibleDocumented extends AbstractDocumented
 
 
     /** The namespace-attribute for the xs:any element */
-    public const XS_ANY_ELT_NAMESPACE = NS::OTHER;
+    public const string XS_ANY_ELT_NAMESPACE = NS::OTHER;
 
 
     /**
@@ -36,8 +36,6 @@ abstract class AbstractExtensibleDocumented extends AbstractDocumented
 
     /**
      * Test if an object, at the state it's in, would produce an empty XML-element
-     *
-     * @return bool
      */
     public function isEmptyElement(): bool
     {

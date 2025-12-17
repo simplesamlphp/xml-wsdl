@@ -15,15 +15,13 @@ use SimpleSAML\XMLSchema\Exception\InvalidDOMElementException;
  */
 final class Types extends AbstractTypes
 {
-    /** @var string */
-    final public const LOCALNAME = 'types';
+    final public const string LOCALNAME = 'types';
 
 
     /**
      * Initialize a types-element.
      *
      * @param \DOMElement $xml The XML element we should load.
-     * @return static
      *
      * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong

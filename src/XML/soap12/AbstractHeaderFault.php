@@ -22,8 +22,7 @@ abstract class AbstractHeaderFault extends AbstractSoapElement
     use BodyAttributesTrait;
 
 
-    /** @var string */
-    public const LOCALNAME = 'headerfault';
+    public const string LOCALNAME = 'headerfault';
 
 
     /**
@@ -75,7 +74,6 @@ abstract class AbstractHeaderFault extends AbstractSoapElement
      * Initialize a Header element.
      *
      * @param \DOMElement $xml The XML element we should load.
-     * @return static
      *
      * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong

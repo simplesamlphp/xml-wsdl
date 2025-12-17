@@ -16,16 +16,13 @@ use SimpleSAML\XMLSchema\Type\Interface\AttributeTypeInterface;
  */
 class RequiredValue extends BooleanValue implements AttributeTypeInterface
 {
-    /** @var string */
-    public const SCHEMA_TYPE = 'boolean';
+    public const string SCHEMA_TYPE = 'boolean';
 
 
     /**
      * Validate the value.
      *
-     * @param string $value
      * @throws \SimpleSAML\XMLSchema\Exception\SchemaViolationException on failure
-     * @return void
      */
     protected function validateValue(string $value): void
     {

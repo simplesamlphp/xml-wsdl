@@ -14,12 +14,9 @@ use SimpleSAML\XML\AbstractElement;
  */
 abstract class AbstractWsdlElement extends AbstractElement
 {
-    /** @var string */
-    public const NS = C::NS_WSDL;
+    public const string NS = C::NS_WSDL;
 
-    /** @var string */
-    public const NS_PREFIX = 'wsdl';
+    public const string NS_PREFIX = 'wsdl';
 
-    /** @var string */
-    public const SCHEMA = 'resources/schemas/wsdl.xsd';
+    public const string SCHEMA = 'resources/schemas/wsdl.xsd';
 }

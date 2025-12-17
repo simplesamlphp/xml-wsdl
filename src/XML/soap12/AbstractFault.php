@@ -19,8 +19,7 @@ use SimpleSAML\XMLSchema\Type\AnyURIValue;
  */
 abstract class AbstractFault extends AbstractBody
 {
-    /** @var string */
-    public const LOCALNAME = 'fault';
+    public const string LOCALNAME = 'fault';
 
 
     /**
@@ -51,7 +50,6 @@ abstract class AbstractFault extends AbstractBody
      * Initialize a Body element.
      *
      * @param \DOMElement $xml The XML element we should load.
-     * @return static
      *
      * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong

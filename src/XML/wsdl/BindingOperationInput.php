@@ -16,15 +16,13 @@ use SimpleSAML\XMLSchema\Type\NCNameValue;
  */
 final class BindingOperationInput extends AbstractBindingOperationMessage
 {
-    /** @var string */
-    final public const LOCALNAME = 'input';
+    final public const string LOCALNAME = 'input';
 
 
     /**
      * Initialize a Input element.
      *
      * @param \DOMElement $xml The XML element we should load.
-     * @return static
      *
      * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong

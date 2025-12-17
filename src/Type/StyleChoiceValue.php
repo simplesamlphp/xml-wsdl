@@ -16,16 +16,13 @@ use function array_column;
  */
 class StyleChoiceValue extends StringValue
 {
-    /** @var string */
-    public const SCHEMA_TYPE = 'tStyleChoice';
+    public const string SCHEMA_TYPE = 'tStyleChoice';
 
 
     /**
      * Validate the value.
      *
-     * @param string $value  The value
      * @throws \Exception on failure
-     * @return void
      */
     protected function validateValue(string $value): void
     {
@@ -39,7 +36,6 @@ class StyleChoiceValue extends StringValue
 
     /**
      * @param \SimpleSAML\WSDL\Enumeration\StyleChoiceEnum $value
-     * @return static
      */
     public static function fromEnum(StyleChoiceEnum $value): static
     {

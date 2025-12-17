@@ -14,12 +14,9 @@ use SimpleSAML\XML\AbstractElement;
  */
 abstract class AbstractSoapElement extends AbstractElement
 {
-    /** @var string */
-    public const NS = C::NS_WSDL_SOAP_12;
+    public const string NS = C::NS_WSDL_SOAP_12;
 
-    /** @var string */
-    public const NS_PREFIX = 'soap12';
+    public const string NS_PREFIX = 'soap12';
 
-    /** @var string */
-    public const SCHEMA = 'resources/schemas/wsdl-soap12.xsd';
+    public const string SCHEMA = 'resources/schemas/wsdl-soap12.xsd';
 }

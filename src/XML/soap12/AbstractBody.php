@@ -22,17 +22,13 @@ abstract class AbstractBody extends AbstractExtensibilityElement
     use BodyAttributesTrait;
 
 
-    /** @var string */
-    public const NS = C::NS_WSDL_SOAP_12;
+    public const string NS = C::NS_WSDL_SOAP_12;
 
-    /** @var string */
-    public const NS_PREFIX = 'soap12';
+    public const string NS_PREFIX = 'soap12';
 
-    /** @var string */
-    public const LOCALNAME = 'body';
+    public const string LOCALNAME = 'body';
 
-    /** @var string */
-    public const SCHEMA = AbstractSoapElement::SCHEMA;
+    public const string SCHEMA = AbstractSoapElement::SCHEMA;
 
 
     /**
@@ -73,8 +69,6 @@ abstract class AbstractBody extends AbstractExtensibilityElement
 
     /**
      * Test if an object, at the state it's in, would produce an empty XML-element
-     *
-     * @return bool
      */
     public function isEmptyElement(): bool
     {

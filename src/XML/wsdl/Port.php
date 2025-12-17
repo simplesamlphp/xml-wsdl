@@ -17,15 +17,13 @@ use SimpleSAML\XMLSchema\Type\QNameValue;
  */
 final class Port extends AbstractPort
 {
-    /** @var string */
-    final public const LOCALNAME = 'port';
+    final public const string LOCALNAME = 'port';
 
 
     /**
      * Initialize a Port element.
      *
      * @param \DOMElement $xml The XML element we should load.
-     * @return static
      *
      * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong

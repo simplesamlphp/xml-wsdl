@@ -82,10 +82,11 @@ final class ServiceTest extends TestCase
             [$portOne, $portTwo],
             [new Chunk($child->documentElement)],
         );
-//var_dump(strval($service));
-        $this->assertEquals(
-            self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
-            strval($service),
-        );
+
+        $expectedXml = self::$xmlRepresentation->saveXml(self::$xmlRepresentation->documentElement);
+        $this->assertNotFalse($expectedXml);
+        $actualXml = strval($service);
+
+        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 }

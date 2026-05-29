@@ -248,9 +248,10 @@ final class DefinitionsTest extends TestCase
             [new Chunk($child->documentElement)],
         );
 
-        $this->assertEquals(
-            self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
-            strval($definitions),
-        );
+        $expectedXml = self::$xmlRepresentation->saveXml(self::$xmlRepresentation->documentElement);
+        $this->assertNotFalse($expectedXml);
+        $actualXml = strval($definitions);
+
+        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 }

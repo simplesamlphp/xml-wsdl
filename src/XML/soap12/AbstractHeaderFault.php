@@ -6,6 +6,8 @@ namespace SimpleSAML\WSDL\XML\soap12;
 
 use Dom;
 use SimpleSAML\WSDL\Assert\Assert;
+use SimpleSAML\XML\Attribute as XMLAttribute;
+use SimpleSAML\XML\Constants as C;
 use SimpleSAML\WSDL\Type\UseChoiceValue;
 use SimpleSAML\XMLSchema\Exception\InvalidDOMElementException;
 use SimpleSAML\XMLSchema\Type\AnyURIValue;
@@ -102,6 +104,16 @@ abstract class AbstractHeaderFault extends AbstractSoapElement
     public function toXML(?Dom\Element $parent = null): Dom\Element
     {
         $e = $this->instantiateParentElement($parent);
+
+        if (!$e->lookupPrefix($this->getMessage()->getNamespacePrefix()->getValue())) {
+            $namespace = new XMLAttribute(
+                C::NS_XMLNS,
+                'xmlns',
+                $this->getMessage()->getNamespacePrefix()->getValue(),
+                $this->getMessage()->getNamespaceURI(),
+            );
+            $namespace->toXML($e);
+        }
 
         $e->setAttribute('message', $this->getMessage()->getValue());
         $e->setAttribute('parts', $this->getParts()->getValue());

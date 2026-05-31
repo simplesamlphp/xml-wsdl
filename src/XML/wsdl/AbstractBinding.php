@@ -6,6 +6,8 @@ namespace SimpleSAML\WSDL\XML\wsdl;
 
 use Dom;
 use SimpleSAML\WSDL\Assert\Assert;
+use SimpleSAML\XML\Attribute as XMLAttribute;
+use SimpleSAML\XML\Constants as C;
 use SimpleSAML\XMLSchema\Exception\SchemaViolationException;
 use SimpleSAML\XMLSchema\Type\NCNameValue;
 use SimpleSAML\XMLSchema\Type\QNameValue;
@@ -91,6 +93,18 @@ abstract class AbstractBinding extends AbstractExtensibleDocumented
         $e = parent::toXML($parent);
 
         $e->setAttribute('name', $this->getName()->getValue());
+
+
+        if (!$e->lookupPrefix($this->getType()->getNamespacePrefix()->getValue())) {
+            $namespace = new XMLAttribute(
+                C::NS_XMLNS,
+                'xmlns',
+                $this->getType()->getNamespacePrefix()->getValue(),
+                $this->getType()->getNamespaceURI(),
+            );
+            $namespace->toXML($e);
+        }
+
         $e->setAttribute('type', $this->getType()->getValue());
 
         foreach ($this->getOperation() as $operation) {

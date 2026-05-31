@@ -6,7 +6,9 @@ namespace SimpleSAML\WSDL\XML\soap12;
 
 use Dom;
 use SimpleSAML\Assert\Assert;
-use SimpleSAML\WSDL\Constants as C;
+use SimpleSAML\XML\Attribute as XMLAttribute;
+use SimpleSAML\XML\Constants as C;
+use SimpleSAML\WSDL\Constants as C_WSDL;
 use SimpleSAML\WSDL\Type\RequiredValue;
 use SimpleSAML\WSDL\Type\UseChoiceValue;
 use SimpleSAML\WSDL\XML\wsdl\AbstractExtensibilityElement;
@@ -26,7 +28,7 @@ abstract class AbstractHeader extends AbstractExtensibilityElement
     use BodyAttributesTrait;
 
 
-    public const string NS = C::NS_WSDL_SOAP_12;
+    public const string NS = C_WSDL::NS_WSDL_SOAP_12;
 
     public const string NS_PREFIX = 'soap12';
 
@@ -113,8 +115,8 @@ abstract class AbstractHeader extends AbstractExtensibilityElement
         Assert::same($xml->namespaceURI, static::NS, InvalidDOMElementException::class);
 
         $required = null;
-        if ($xml->hasAttributeNS(C::NS_WSDL, 'required')) {
-            $required = RequiredValue::fromString($xml->getAttributeNS(C::NS_WSDL, 'required'));
+        if ($xml->hasAttributeNS(C_WSDL::NS_WSDL, 'required')) {
+            $required = RequiredValue::fromString($xml->getAttributeNS(C_WSDL::NS_WSDL, 'required'));
         }
 
         return new static(
@@ -138,6 +140,16 @@ abstract class AbstractHeader extends AbstractExtensibilityElement
     public function toXML(?Dom\Element $parent = null): Dom\Element
     {
         $e = parent::toXML($parent);
+
+        if (!$e->lookupPrefix($this->getMessage()->getNamespacePrefix()->getValue())) {
+            $namespace = new XMLAttribute(
+                C::NS_XMLNS,
+                'xmlns',
+                $this->getMessage()->getNamespacePrefix()->getValue(),
+                $this->getMessage()->getNamespaceURI(),
+            );
+            $namespace->toXML($e);
+        }
 
         $e->setAttribute('message', $this->getMessage()->getValue());
         $e->setAttribute('parts', $this->getParts()->getValue());

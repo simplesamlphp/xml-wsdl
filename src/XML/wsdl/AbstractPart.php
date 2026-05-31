@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SimpleSAML\WSDL\XML\wsdl;
 
 use Dom;
+use SimpleSAML\XML\Attribute as XMLAttribute;
+use SimpleSAML\XML\Constants as C;
 use SimpleSAML\XMLSchema\Type\NCNameValue;
 use SimpleSAML\XMLSchema\Type\QNameValue;
 
@@ -89,10 +91,30 @@ abstract class AbstractPart extends AbstractExtensibleAttributesDocumented
         $e->setAttribute('name', $this->getName()->getValue());
 
         if ($this->getElement() !== null) {
+            if (!$e->lookupPrefix($this->getElement()->getNamespacePrefix()->getValue())) {
+                $namespace = new XMLAttribute(
+                    C::NS_XMLNS,
+                    'xmlns',
+                    $this->getElement()->getNamespacePrefix()->getValue(),
+                    $this->getElement()->getNamespaceURI(),
+                );
+                $namespace->toXML($e);
+            }
+
             $e->setAttribute('element', $this->getElement()->getValue());
         }
 
         if ($this->getType() !== null) {
+            if (!$e->lookupPrefix($this->getType()->getNamespacePrefix()->getValue())) {
+                $namespace = new XMLAttribute(
+                    C::NS_XMLNS,
+                    'xmlns',
+                    $this->getType()->getNamespacePrefix()->getValue(),
+                    $this->getType()->getNamespaceURI(),
+                );
+                $namespace->toXML($e);
+            }
+
             $e->setAttribute('type', $this->getType()->getValue());
         }
 

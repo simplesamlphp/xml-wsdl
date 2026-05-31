@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SimpleSAML\WSDL\XML\wsdl;
 
 use Dom;
+use SimpleSAML\XML\Attribute as XMLAttribute;
+use SimpleSAML\XML\Constants as C;
 use SimpleSAML\XMLSchema\Type\NCNameValue;
 use SimpleSAML\XMLSchema\Type\QNameValue;
 
@@ -74,6 +76,17 @@ abstract class AbstractFault extends AbstractExtensibleAttributesDocumented
         $e = parent::toXML($parent);
 
         $e->setAttribute('name', $this->getName()->getValue());
+
+        if (!$e->lookupPrefix($this->getMessage()->getNamespacePrefix()->getValue())) {
+            $namespace = new XMLAttribute(
+                C::NS_XMLNS,
+                'xmlns',
+                $this->getMessage()->getNamespacePrefix()->getValue(),
+                $this->getMessage()->getNamespaceURI(),
+           );
+            $namespace->toXML($e);
+        }
+
         $e->setAttribute('message', $this->getMessage()->getValue());
 
         return $e;

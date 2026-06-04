@@ -59,9 +59,10 @@ final class TypesTest extends TestCase
 
         $types = new Types([new Chunk($child->documentElement)]);
 
-        $this->assertEquals(
-            self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
-            strval($types),
-        );
+        $expectedXml = self::$xmlRepresentation->saveXml(self::$xmlRepresentation->documentElement);
+        $this->assertNotFalse($expectedXml);
+        $actualXml = strval($types);
+
+        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 }

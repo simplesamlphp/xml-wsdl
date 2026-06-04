@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace SimpleSAML\WSDL\XML\wsdl;
 
-use DOMElement;
+use Dom;
+use SimpleSAML\XML\Attribute as XMLAttribute;
+use SimpleSAML\XML\Constants as C;
 use SimpleSAML\XMLSchema\Type\NCNameValue;
 use SimpleSAML\XMLSchema\Type\QNameValue;
 
@@ -66,14 +68,25 @@ abstract class AbstractFault extends AbstractExtensibleAttributesDocumented
     /**
      * Convert this tParam to XML.
      *
-     * @param \DOMElement|null $parent The element we are converting to XML.
-     * @return \DOMElement The XML element after adding the data corresponding to this tParam.
+     * @param \Dom\Element|null $parent The element we are converting to XML.
+     * @return \Dom\Element The XML element after adding the data corresponding to this tParam.
      */
-    public function toXML(?DOMElement $parent = null): DOMElement
+    public function toXML(?Dom\Element $parent = null): Dom\Element
     {
         $e = parent::toXML($parent);
 
         $e->setAttribute('name', $this->getName()->getValue());
+
+        if (!$e->lookupPrefix($this->getMessage()->getNamespacePrefix()->getValue())) {
+            $namespace = new XMLAttribute(
+                C::NS_XMLNS,
+                'xmlns',
+                $this->getMessage()->getNamespacePrefix()->getValue(),
+                $this->getMessage()->getNamespaceURI(),
+            );
+            $namespace->toXML($e);
+        }
+
         $e->setAttribute('message', $this->getMessage()->getValue());
 
         return $e;

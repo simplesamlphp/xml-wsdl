@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SimpleSAML\WSDL\XML\wsdl;
 
-use DOMElement;
+use Dom;
 use SimpleSAML\WSDL\Assert\Assert;
 use SimpleSAML\XMLSchema\Exception\SchemaViolationException;
 use SimpleSAML\XMLSchema\Type\NCNameValue;
@@ -99,10 +99,10 @@ abstract class AbstractPortTypeOperation extends AbstractExtensibleDocumented
     /**
      * Convert this RequestResponseOrOneWayOperation to XML.
      *
-     * @param \DOMElement|null $parent The element we should add this organization to.
-     * @return \DOMElement This Organization-element.
+     * @param \Dom\Element|null $parent The element we should add this organization to.
+     * @return \Dom\Element This Organization-element.
      */
-    public function toXML(?DOMElement $parent = null): DOMElement
+    public function toXML(?Dom\Element $parent = null): Dom\Element
     {
         $e = $this->instantiateParentElement($parent);
         $e->setAttribute('name', $this->getName()->getValue());

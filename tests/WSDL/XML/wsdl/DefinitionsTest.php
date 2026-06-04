@@ -70,6 +70,8 @@ final class DefinitionsTest extends TestCase
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
             dirname(__FILE__, 4) . '/resources/xml/wsdl/Definitions.xml',
         );
+
+        self::$schemaFile = dirname(__FILE__, 4) . '/resources/schemas/simplesamlphp.xsd';
     }
 
 
@@ -248,9 +250,10 @@ final class DefinitionsTest extends TestCase
             [new Chunk($child->documentElement)],
         );
 
-        $this->assertEquals(
-            self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
-            strval($definitions),
-        );
+        $expectedXml = self::$xmlRepresentation->saveXml(self::$xmlRepresentation->documentElement);
+        $this->assertNotFalse($expectedXml);
+        $actualXml = strval($definitions);
+
+        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 }

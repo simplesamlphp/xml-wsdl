@@ -103,9 +103,10 @@ final class PortTypeTest extends TestCase
 
         $portType = new PortType(NCNameValue::fromString('MyPort'), [$inputOperation, $outputOperation], [$port]);
 
-        $this->assertEquals(
-            self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
-            strval($portType),
-        );
+        $expectedXml = self::$xmlRepresentation->saveXml(self::$xmlRepresentation->documentElement);
+        $this->assertNotFalse($expectedXml);
+        $actualXml = strval($portType);
+
+        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 }

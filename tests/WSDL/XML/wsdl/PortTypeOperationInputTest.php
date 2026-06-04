@@ -93,9 +93,10 @@ final class PortTypeOperationInputTest extends TestCase
             [$fault],
         );
 
-        $this->assertEquals(
-            self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
-            strval($operation),
-        );
+        $expectedXml = self::$xmlRepresentation->saveXml(self::$xmlRepresentation->documentElement);
+        $this->assertNotFalse($expectedXml);
+        $actualXml = strval($operation);
+
+        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 }

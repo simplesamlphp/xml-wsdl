@@ -63,9 +63,10 @@ final class ImportTest extends TestCase
             [$attr1],
         );
 
-        $this->assertEquals(
-            self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
-            strval($import),
-        );
+        $expectedXml = self::$xmlRepresentation->saveXml(self::$xmlRepresentation->documentElement);
+        $this->assertNotFalse($expectedXml);
+        $actualXml = strval($import);
+
+        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 }

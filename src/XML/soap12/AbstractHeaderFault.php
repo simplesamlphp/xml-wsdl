@@ -6,9 +6,9 @@ namespace SimpleSAML\WSDL\XML\soap12;
 
 use Dom;
 use SimpleSAML\WSDL\Assert\Assert;
+use SimpleSAML\WSDL\Type\UseChoiceValue;
 use SimpleSAML\XML\Attribute as XMLAttribute;
 use SimpleSAML\XML\Constants as C;
-use SimpleSAML\WSDL\Type\UseChoiceValue;
 use SimpleSAML\XMLSchema\Exception\InvalidDOMElementException;
 use SimpleSAML\XMLSchema\Type\AnyURIValue;
 use SimpleSAML\XMLSchema\Type\NMTokensValue;

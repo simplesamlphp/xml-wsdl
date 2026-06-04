@@ -6,12 +6,12 @@ namespace SimpleSAML\WSDL\XML\soap12;
 
 use Dom;
 use SimpleSAML\Assert\Assert;
-use SimpleSAML\XML\Attribute as XMLAttribute;
-use SimpleSAML\XML\Constants as C;
 use SimpleSAML\WSDL\Constants as C_WSDL;
 use SimpleSAML\WSDL\Type\RequiredValue;
 use SimpleSAML\WSDL\Type\UseChoiceValue;
 use SimpleSAML\WSDL\XML\wsdl\AbstractExtensibilityElement;
+use SimpleSAML\XML\Attribute as XMLAttribute;
+use SimpleSAML\XML\Constants as C;
 use SimpleSAML\XMLSchema\Exception\InvalidDOMElementException;
 use SimpleSAML\XMLSchema\Exception\SchemaViolationException;
 use SimpleSAML\XMLSchema\Type\AnyURIValue;

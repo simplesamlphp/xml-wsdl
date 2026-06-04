@@ -83,7 +83,7 @@ abstract class AbstractFault extends AbstractExtensibleAttributesDocumented
                 'xmlns',
                 $this->getMessage()->getNamespacePrefix()->getValue(),
                 $this->getMessage()->getNamespaceURI(),
-           );
+            );
             $namespace->toXML($e);
         }
 

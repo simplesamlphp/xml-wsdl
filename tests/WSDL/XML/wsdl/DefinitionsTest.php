@@ -70,6 +70,8 @@ final class DefinitionsTest extends TestCase
         self::$xmlRepresentation = DOMDocumentFactory::fromFile(
             dirname(__FILE__, 4) . '/resources/xml/wsdl/Definitions.xml',
         );
+
+        self::$schemaFile = dirname(__FILE__, 4) . '/resources/schemas/simplesamlphp.xsd';
     }
 
 

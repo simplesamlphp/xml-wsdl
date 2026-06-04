@@ -73,16 +73,6 @@ abstract class AbstractBinding extends AbstractExtensibleDocumented
 
 
     /**
-     * Test if an object, at the state it's in, would produce an empty XML-element
-     */
-    public function isEmptyElement(): bool
-    {
-        // Upstream abstract elements can be empty, but this one cannot
-        return false;
-    }
-
-
-    /**
      * Convert this tBinding to XML.
      *
      * @param \Dom\Element|null $parent The element we are converting to XML.

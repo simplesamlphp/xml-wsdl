@@ -11,6 +11,8 @@ use SimpleSAML\XMLSchema\Exception\SchemaViolationException;
 use SimpleSAML\XMLSchema\Type\NCNameValue;
 use SimpleSAML\XMLSchema\Type\NMTokensValue;
 
+use function array_last;
+
 /**
  * Class representing the Operation element.
  *
@@ -54,18 +56,18 @@ final class PortTypeOperation extends AbstractPortTypeOperation
         if ($first === Input::class) {
             // xs:group solicit-response-or-notification-operation
             $input = Input::getChildrenOfClass($xml);
-            $input = array_pop($input);
+            $input = array_last($input);
             Assert::notNull($input, SchemaViolationException::class);
             $output = Output::getChildrenOfClass($xml);
-            $output = array_pop($output);
+            $output = array_last($output);
         } else {
             // xs:group request-response-or-one-way-operation
             // NOTE:  input is really output and vice versa!!
             $input = Output::getChildrenOfClass($xml);
-            $input = array_pop($input);
+            $input = array_last($input);
             Assert::notNull($input, SchemaViolationException::class);
             $output = Input::getChildrenOfClass($xml);
-            $output = array_pop($output);
+            $output = array_last($output);
         }
 
         return new static(

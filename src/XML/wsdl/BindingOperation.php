@@ -9,7 +9,7 @@ use SimpleSAML\Assert\Assert;
 use SimpleSAML\XMLSchema\Exception\InvalidDOMElementException;
 use SimpleSAML\XMLSchema\Type\NCNameValue;
 
-use function array_pop;
+use function array_last;
 
 /**
  * Class representing the BindingOperation element.
@@ -40,8 +40,8 @@ final class BindingOperation extends AbstractBindingOperation
 
         return new static(
             self::getAttribute($xml, 'name', NCNameValue::class),
-            array_pop($input),
-            array_pop($output),
+            array_last($input),
+            array_last($output),
             $faults,
             self::getChildElementsFromXML($xml),
         );

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SimpleSAML\WSDL\XML\wsdl;
 
-use DOMElement;
+use Dom;
 use SimpleSAML\XML\ExtendableElementTrait;
 use SimpleSAML\XMLSchema\XML\Constants\NS;
 
@@ -46,10 +46,10 @@ abstract class AbstractExtensibleDocumented extends AbstractDocumented
     /**
      * Convert this tExtensibleDocumented to XML.
      *
-     * @param \DOMElement|null $parent The element we are converting to XML.
-     * @return \DOMElement The XML element after adding the data corresponding to this tExtensibleDocumented.
+     * @param \Dom\Element|null $parent The element we are converting to XML.
+     * @return \Dom\Element The XML element after adding the data corresponding to this tExtensibleDocumented.
      */
-    public function toXML(?DOMElement $parent = null): DOMElement
+    public function toXML(?Dom\Element $parent = null): Dom\Element
     {
         $e = parent::toXML($parent);
 

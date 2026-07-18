@@ -113,9 +113,10 @@ final class BindingTest extends TestCase
             [new Chunk($child->documentElement)],
         );
 
-        $this->assertEquals(
-            self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
-            strval($binding),
-        );
+        $expectedXml = self::$xmlRepresentation->saveXml(self::$xmlRepresentation->documentElement);
+        $this->assertNotFalse($expectedXml);
+        $actualXml = strval($binding);
+
+        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 }

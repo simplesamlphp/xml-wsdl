@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace SimpleSAML\WSDL\XML\wsdl;
 
-use DOMElement;
+use Dom;
+use SimpleSAML\XML\Attribute as XMLAttribute;
+use SimpleSAML\XML\Constants as C;
 use SimpleSAML\XMLSchema\Type\NCNameValue;
 use SimpleSAML\XMLSchema\Type\QNameValue;
 
@@ -79,20 +81,40 @@ abstract class AbstractPart extends AbstractExtensibleAttributesDocumented
     /**
      * Convert this tPart to XML.
      *
-     * @param \DOMElement|null $parent The element we are converting to XML.
-     * @return \DOMElement The XML element after adding the data corresponding to this tPart.
+     * @param \Dom\Element|null $parent The element we are converting to XML.
+     * @return \Dom\Element The XML element after adding the data corresponding to this tPart.
      */
-    public function toXML(?DOMElement $parent = null): DOMElement
+    public function toXML(?Dom\Element $parent = null): Dom\Element
     {
         $e = parent::toXML($parent);
 
         $e->setAttribute('name', $this->getName()->getValue());
 
         if ($this->getElement() !== null) {
+            if (!$e->lookupPrefix($this->getElement()->getNamespacePrefix()->getValue())) {
+                $namespace = new XMLAttribute(
+                    C::NS_XMLNS,
+                    'xmlns',
+                    $this->getElement()->getNamespacePrefix()->getValue(),
+                    $this->getElement()->getNamespaceURI(),
+                );
+                $namespace->toXML($e);
+            }
+
             $e->setAttribute('element', $this->getElement()->getValue());
         }
 
         if ($this->getType() !== null) {
+            if (!$e->lookupPrefix($this->getType()->getNamespacePrefix()->getValue())) {
+                $namespace = new XMLAttribute(
+                    C::NS_XMLNS,
+                    'xmlns',
+                    $this->getType()->getNamespacePrefix()->getValue(),
+                    $this->getType()->getNamespaceURI(),
+                );
+                $namespace->toXML($e);
+            }
+
             $e->setAttribute('type', $this->getType()->getValue());
         }
 

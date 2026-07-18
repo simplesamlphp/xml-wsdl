@@ -61,9 +61,10 @@ final class AddressTest extends TestCase
             RequiredValue::fromBoolean(true),
         );
 
-        $this->assertEquals(
-            self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
-            strval($address),
-        );
+        $expectedXml = self::$xmlRepresentation->saveXml(self::$xmlRepresentation->documentElement);
+        $this->assertNotFalse($expectedXml);
+        $actualXml = strval($address);
+
+        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 }

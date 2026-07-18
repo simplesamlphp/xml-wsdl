@@ -65,9 +65,10 @@ final class PortTest extends TestCase
             [new Chunk($child->documentElement)],
         );
 
-        $this->assertEquals(
-            self::$xmlRepresentation->saveXML(self::$xmlRepresentation->documentElement),
-            strval($port),
-        );
+        $expectedXml = self::$xmlRepresentation->saveXml(self::$xmlRepresentation->documentElement);
+        $this->assertNotFalse($expectedXml);
+        $actualXml = strval($port);
+
+        $this->assertXmlStringEqualsXmlString($expectedXml, $actualXml);
     }
 }

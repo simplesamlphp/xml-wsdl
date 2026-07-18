@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Schema for SimpleSAMLphp dummy classes -->
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:ssp="urn:x-simplesamlphp:namespace"
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        targetNamespace="urn:x-simplesamlphp:namespace"
+        version="0.1" elementFormDefault="qualified" attributeFormDefault="qualified"> 
+
+<import namespace='http://schemas.xmlsoap.org/wsdl/'
+          schemaLocation='../../../resources/schemas/wsdl.xsd'/>
+
+<!-- Start CustomElement -->
+
+<element name="CustomElement" type="string"/>
+
+<!-- End CustomElement -->
+
+<!-- Start CustomInputMessage -->
+
+<element name="CustomInputMessage" type="string"/>
+
+<!-- End CustomInputMessage -->
+
+<!-- Start CustomOutputMessage -->
+
+<element name="CustomOutputMessage" type="string"/>
+
+<!-- End CustomOutputMessage -->
+
+<!-- Start CustomFaultMessage -->
+
+<element name="CustomFaultMessage" type="string"/>
+
+<!-- End CustomFaultMessage -->
+
+<!-- Start Chunk -->
+
+<element name="Chunk" type="string"/>
+
+<!-- End Chunk -->
+
+</schema>
+

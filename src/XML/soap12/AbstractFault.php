@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SimpleSAML\WSDL\XML\soap12;
 
-use DOMElement;
+use Dom;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\WSDL\Constants as C;
 use SimpleSAML\WSDL\Type\RequiredValue;
@@ -49,12 +49,12 @@ abstract class AbstractFault extends AbstractBody
     /**
      * Initialize a Body element.
      *
-     * @param \DOMElement $xml The XML element we should load.
+     * @param \Dom\Element $xml The XML element we should load.
      *
      * @throws \SimpleSAML\XMLSchema\Exception\InvalidDOMElementException
      *   if the qualified name of the supplied element is wrong
      */
-    public static function fromXML(DOMElement $xml): static
+    public static function fromXML(Dom\Element $xml): static
     {
         Assert::same($xml->localName, static::getLocalName(), InvalidDOMElementException::class);
         Assert::same($xml->namespaceURI, static::NS, InvalidDOMElementException::class);
@@ -76,10 +76,10 @@ abstract class AbstractFault extends AbstractBody
     /**
      * Convert this tFault to XML.
      *
-     * @param \DOMElement|null $parent The element we are converting to XML.
-     * @return \DOMElement The XML element after adding the data corresponding to this tFault
+     * @param \Dom\Element|null $parent The element we are converting to XML.
+     * @return \Dom\Element The XML element after adding the data corresponding to this tFault
      */
-    public function toXML(?DOMElement $parent = null): DOMElement
+    public function toXML(?Dom\Element $parent = null): Dom\Element
     {
         return parent::toXML($parent);
     }
